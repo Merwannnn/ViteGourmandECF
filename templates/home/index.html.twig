@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block header %}
+<header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+    <div class="container-fluid">
+        <p>Nous sommes Vite & Gourmand</p>
+    </div>
+</header>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div id="carouselAccueil" class="carousel slide py-4">
+        <div class="carousel-inner gap-3">
+            <div class="carousel-item active text-center">
+                <img src="{{ asset('image/accueil/image_covoit_1.jpg') }}" class="img-fluid rounded"/>
+            </div>
+            <div class="carousel-item text-center">
+                <img src="{{ asset('image/accueil/image_covoit_2.jpg') }}" class="img-fluid rounded"/>
+            </div>
+            <div class="carousel-item text-center">
+                <img src="{{ asset('image/accueil/image_voiture_éléctrique_1.jpg') }}" class="img-fluid rounded"/>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselAccueil" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselAccueil" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <div class="container pb-4">
+        <p class="fs-3 fw-semibold text-center">Nos employé font tout pour que votre expérience de nos services soit irréprochable Pellentesque in enim egestas, dictum sem nec, sodales velit. 
+        Morbi commodo ornare sapien. Maecenas faucibus in tellus vel consequat. Duis egestas eleifend eros, nec sagittis justo. 
+        Curabitur in ex at ipsum egestas semper. 
+        Quisque ultrices interdum arcu nec fermentum. Quisque ullamcorper libero semper velit faucibus vehicula. 
+        Morbi vel felis erat.
+        Pellentesque in enim egestas, dictum sem nec, sodales velit. Morbi commodo ornare sapien. Maecenas faucibus in tellus vel consequat.
+        Duis egestas eleifend eros, nec sagittis justo.
+        Morbi commodo ornare sapien. Maecenas faucibus in tellus vel consequat. Duis egestas eleifend eros, nec sagittis justo. 
+        Curabitur in ex at ipsum egestas semper. 
+        Quisque ultrices interdum arcu nec fermentum. Quisque ullamcorper libero semper velit faucibus vehicula. 
+        Morbi vel felis erat.
+        Pellentesque in enim egestas, dictum sem nec, sodales velit. Morbi commodo ornare sapien. Maecenas faucibus in tellus vel consequat.
+        Duis egestas eleifend eros, nec sagittis justo.
+        </p>
+    </div>
+    <div class="container-fluid text-center py-2 rounded div-middle-bar">
+        <p>Les Avis de nos Clients:</p>
+    </div>
+</div>
+{% endblock %}
