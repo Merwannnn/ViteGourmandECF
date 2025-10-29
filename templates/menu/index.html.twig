@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Menu disponible{% endblock %}
+
+{% block body %}
+<h1>Liste des menu disponible</h1>
+
+{% if is_granted('ROLE_ADMIN') %}
+<div>
+    <a href="{{ path('menu.create') }}" class="btn btn-danger fs-4 p-2 m-2">Créer un nouveau menu</a>
+</div>
+{% endif %}
+
+{% for menu in menus %}
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="border bg-custom-pink rounded p-2 mb-1">
+    {% else %}
+    <div class="border bg-custom-pink rounded p-2 mb-4">  
+    {% endif %}
+        <div class="fs-1 fw-semibold">{{ menu.title }}</div>
+        <div class="bg-custom-black-pink border rounded p-2">
+            <div class="fs-3 pb-4">{{ menu.description }}</div>
+            <div>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Nombre de personne minimum: {{ menu.nbPersonneMinimum }}</span><br><br>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Prix: {{ menu.prixPersonne }}€</span>
+            </div>
+            <div class="text-end">
+                <a href="{{ path('menu.show', {'id': menu.id}) }}" class="btn bg-custom-pink shadow-inner-drop rounded-2 fs-2 me-2">Détails</a>
+            </div>
+        </div>
+    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="text-end d-flex justify-content-between mb-4">
+        <a href="{{ path('menu.edit', {'id': menu.id}) }}" class="btn btn-primary fs-4 p-2 m-2">Modifier</a>
+        {{ include('menu/_delete_form.html.twig') }}
+    </div>
+    {% endif %}
+{% else %}
+<div colspan="8">Aucun menu disponible</div>
+{% endfor %}
+{% endblock %}
