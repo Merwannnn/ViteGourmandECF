@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau plat{% endblock %}
+
+{% block body %}
+<h1>Créer un nouveau plat</h1>
+
+{{ form(form) }}
+
+<a href="{{ path('menu.index') }}" class="btn border bg-custom-pink fs-4 p-2 m-2">Retour au menu</a>
+{% endblock %}

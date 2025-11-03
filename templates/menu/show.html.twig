@@ -7,13 +7,23 @@
         <div class="fs-1 fw-semibold">{{ menu.title }}</div>
         <div class="bg-custom-black-pink border rounded p-2">
             <div class="fs-3 pb-4">{{ menu.description }}</div>
+            <ul>
+                {% for plat in menu.plat %}
+                    <li>{{ plat.platTitle }}</li>                
+                {% endfor %}
+            </ul>
             <div>
                 <span class="fs-3 border bg-custom-pink rounded p-1">Nombre de personne minimum: {{ menu.nbPersonneMinimum }}</span><br><br>
                 <span class="fs-3 border bg-custom-pink rounded p-1">Thême du menu: {{ menu.theme.themeTitle }}</span><br><br>
                 <span class="fs-3 border bg-custom-pink rounded p-1">Prix: {{ menu.prixPersonne }}€</span>
                 <span class="fs-3 border bg-custom-pink rounded p-1">Régime: {{ menu.regime }}</span>
-                <span class="fs-3 border bg-custom-pink rounded p-1">Quantité restante: {{ menu.quantiteRestante }}</span>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Quantité restante: {{ menu.quantiteRestante }}</span><br><br>
             </div>
+            {% for plat in menu.plat %}
+            <div>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Allergene: {{ plat.allergene }}</span><br><br>
+            </div>
+            {% endfor %}
         </div>
 </div>
 {% if is_granted('ROLE_ADMIN') %}  

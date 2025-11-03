@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Menu;
+use App\Entity\Plat;
 use App\Entity\Theme;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -27,6 +28,17 @@ class MenuType extends AbstractType
                 'placeholder' => 'Choisisser un thême',
                 'required' => false,
                 'label' => 'Thême du menu'
+            ])
+            ->add('plat', EntityType::class, [
+                'class' => Plat::class,
+                'choice_label' => 'plat_title',
+                'label' => 'Entrée, Plat principale et Dessert',
+                'multiple' => true,
+                'expanded' => false,
+                'attr' => [
+                    'class' => 'form-select',
+                    'size' => 10
+                ]
             ])
             ->add('nbPersonneMinimum', IntegerType::class, [
                 'label' => 'Nombre de personne minimum'

@@ -8,6 +8,7 @@
 {% if is_granted('ROLE_ADMIN') %}
 <div>
     <a href="{{ path('menu.create') }}" class="btn btn-danger fs-4 p-2 m-2">Créer un nouveau menu</a>
+    <a href="{{ path('plat.create') }}" class="btn btn-secondary fs-4 p-2 m-2">Créer un nouveau plat</a>
 </div>
 {% endif %}
 
