@@ -7,9 +7,12 @@
         <div class="fs-1 fw-semibold">{{ menu.title }}</div>
         <div class="bg-custom-black-pink border rounded p-2">
             <div class="fs-3 pb-4">{{ menu.description }}</div>
-            <ul>
+            <ul class="flex-wrap border bg-light rounded d-flex justify-content-center list-unstyled p-1">
                 {% for plat in menu.plat %}
-                    <li>{{ plat.platTitle }}</li>                
+                    <li class="px-3 mb-4 d-flex flex-column align-items-center">
+                        <span class="text-custom-pink fs-1 fst-italic fw-bold">° {{ plat.platTitle }}</span>
+                        <img src="{{ vich_uploader_asset(plat, 'thumbnailFile') }}" class="img-fluid thumbnailFile-img rounded">
+                    </li>
                 {% endfor %}
             </ul>
             <div>
