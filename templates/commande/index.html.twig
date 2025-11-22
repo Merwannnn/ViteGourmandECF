@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande{% endblock %}
+
+{% block body %}
+<h1>Commande client</h1>
+
+{% for commande in commandes %}
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="border bg-custom-pink rounded p-2 mb-1">
+    {% else %}
+    <div class="border bg-custom-pink rounded p-2 mb-4">  
+    {% endif %}
+        <div class="fs-1 fw-semibold">{{ commande.menu.title }} | {{ commande.numeroCommande }}</div>
+        <div class="bg-custom-black-pink border rounded p-2">
+            <div>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Date de la commande: {{ commande.dateCommande ? commande.dateCommande|date('Y-m-d') : '' }}</span>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Date de la préstation: {{ commande.datePrestation ? commande.datePrestation|date('Y-m-d') : '' }}</span>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Heure de livraison: {{ commande.heureLivraison ? commande.heureLivraison|date('H:i') : '' }}</span><br><br>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Nom client: {{ commande.user.name }}</span>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Email client: {{ commande.user.email }}</span>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Numéro de téléphone client: {{ commande.user.phone }}</span><br><br>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Adresse du client: {{ commande.adresseLivraison }}</span><br><br>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Prix du menu: {{ commande.prixMenu }}€</span>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Prix de la livraison: {{ commande.prixLivraison }}€</span><br><br>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Prêt de matériel: {{ commande.pretMateriel }}</span>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Réstitution du matériel: {{ commande.restitutionMateriel }}</span>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Statut actuelle: {{ commande.statut }}</span>
+
+            </div>
+            <div class="text-end">
+                <a href="{{ path('commande.edit', {'id': commande.id}) }}" class="btn bg-custom-pink shadow-inner-drop rounded-2 fs-2 me-2">Modifier</a>
+            </div>
+        </div>
+    </div>
+{% else %}
+<div colspan="8">Aucune commande disponible</div>
+{% endfor %}
+{% endblock %}

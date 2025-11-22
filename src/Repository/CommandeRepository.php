@@ -16,6 +16,17 @@ class CommandeRepository extends ServiceEntityRepository
         parent::__construct($registry, Commande::class);
     }
 
+    public function findAllWithUserAndMenu() : array
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.user', 'u')
+            ->addSelect('u')
+            ->leftJoin('c.menu', 'm')
+            ->addSelect('m')
+            ->getQuery()
+            ->getResult();
+        
+    }
 //    /**
 //     * @return Commande[] Returns an array of Commande objects
 //     */
