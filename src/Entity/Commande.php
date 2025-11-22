@@ -41,8 +41,19 @@ class Commande
     #[ORM\Column]
     private ?bool $restitutionMateriel = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 8, unique: true)]
     private ?string $numeroCommande = null;
+
+    #[ORM\ManyToOne(inversedBy: 'commandes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Menu $menu = null;
+
+    #[ORM\ManyToOne(inversedBy: 'commandes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $adresseLivraison = null;
 
     public function getId(): ?int
     {
@@ -165,6 +176,42 @@ class Commande
     public function setNumeroCommande(string $numeroCommande): static
     {
         $this->numeroCommande = $numeroCommande;
+
+        return $this;
+    }
+
+    public function getMenu(): ?Menu
+    {
+        return $this->menu;
+    }
+
+    public function setMenu(?Menu $menu): static
+    {
+        $this->menu = $menu;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getAdresseLivraison(): ?string
+    {
+        return $this->adresseLivraison;
+    }
+
+    public function setAdresseLivraison(string $adresseLivraison): static
+    {
+        $this->adresseLivraison = $adresseLivraison;
 
         return $this;
     }
