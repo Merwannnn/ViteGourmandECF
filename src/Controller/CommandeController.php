@@ -84,19 +84,39 @@ final class CommandeController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_USER')]
     #[Route('/{id}/edit', name: 'commande.edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Commande $commande, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_EMPLOYE')) {
+            if ($commande->getStatut() !== 'Commande passée') {
+                $this->addFlash('error', 'Vous ne pouvez plus modifier cette commande');
+                return $this->redirectToRoute('espace.show_commandes', [], Response::HTTP_SEE_OTHER);
+            }
+        }
+
         $form = $this->createForm(CommandeType::class, $commande, [
             'user' => $commande->getUser()
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $menu = $commande->getMenu();
+            $nbPersonneMinimum = $menu->getNbPersonneMinimum();
+            $nombrePersonne = $commande->getNombrePersonne();
+            $prixLivraison = $commande->getPrixLivraison();
+            $nbPersonneTotale = max($nbPersonneMinimum, $nombrePersonne);
+            $prixTotaleCommande = $menu->getPrixPersonne() * $nbPersonneTotale + $prixLivraison;
+
+            $commande->setPrixMenu($prixTotaleCommande);
+            
             $entityManager->flush();
 
-            return $this->redirectToRoute('commande.index', [], Response::HTTP_SEE_OTHER);
+            if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_EMPLOYE')) {
+                return $this->redirectToRoute('commande.index', [], Response::HTTP_SEE_OTHER);
+            } else {
+                return $this->redirectToRoute('espace.show_commandes', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('commande/edit.html.twig', [
@@ -105,13 +125,26 @@ final class CommandeController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_ADMIN', 'ROLE_USER')]
     #[Route('/{id}', name: 'commande.delete', methods: ['POST'])]
     public function delete(Request $request, Commande $commande, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$commande->getId(), $request->getPayload()->getString('_token'))) {
+
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_EMPLOYE')) {
+            if ($commande->getStatut() !== 'Commande passée') {
+                $this->addFlash('error', 'Vous ne pouvez plus annuler cette commande');
+                return $this->redirectToRoute('espace.show_commandes', [], Response::HTTP_SEE_OTHER);
+            }
+        }
             $entityManager->remove($commande);
             $entityManager->flush();
+            
+            if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_EMPLOYE')) {
+                return $this->redirectToRoute('commande.index', [], Response::HTTP_SEE_OTHER);
+            } else {
+                return $this->redirectToRoute('espace.show_commandes', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->redirectToRoute('commande.index', [], Response::HTTP_SEE_OTHER);
