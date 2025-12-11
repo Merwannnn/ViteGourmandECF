@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Commande;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -23,6 +24,26 @@ class CommandeRepository extends ServiceEntityRepository
             ->addSelect('u')
             ->leftJoin('c.menu', 'm')
             ->addSelect('m')
+            ->leftJoin('c.avis', 'a')
+            ->addSelect('a')
+            ->orderBy('c.dateCommande', 'DESC')
+            ->getQuery()
+            ->getResult();
+        
+    }
+
+    public function findMyCommand(User $user) : array
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.user', 'u')
+            ->addSelect('u')
+            ->leftJoin('c.menu', 'm')
+            ->addSelect('m')
+            ->leftJoin('c.avis', 'a')
+            ->addSelect('a')
+            ->where('c.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('c.dateCommande', 'DESC')
             ->getQuery()
             ->getResult();
         

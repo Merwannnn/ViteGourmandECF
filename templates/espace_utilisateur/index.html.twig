@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon espace{% endblock %}
+
+{% block header %}
+<header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+    <div class="container-fluid">
+        <p>Mon espace</p>
+    </div>
+</header>
+{% endblock %}
+
+{% block body %}
+<div class="border bg-custom-pink rounded p-2 mb-4">
+    <div class="titleFontSize fw-semibold text-center">Mes commandes</div>
+    <div class="bg-custom-black-pink border rounded p-2">
+        <a href="{{ path('espace.show_commandes') }}" class="btn border bg-custom-pink fs-4 p-2 m-2 d-flex justify-content-center">Historique des commandes</a>
+    </div>
+</div>
+
+<div class="border bg-custom-pink rounded p-2 mb-4">
+    <div class="titleFontSize fw-semibold text-center">Mes informations</div>
+    <div class="bg-custom-black-pink border rounded p-2">
+        <span class="fs-3 border bg-custom-pink rounded p-1">Email: </span>
+        <p class="fs-3 p-1">{{ user.email }}</p>
+        <span class="fs-3 border bg-custom-pink rounded p-1">Nom et prénom: </span>
+        <p class="fs-3 p-1">{{ user.name }}</p>
+        <span class="fs-3 border bg-custom-pink rounded p-1">Adresse: </span>
+        <p class="fs-3 p-1">{{ user.address }}</p>
+        <span class="fs-3 border bg-custom-pink rounded p-1">Numéro de téléphone: </span>
+        <p class="fs-3 p-1">{{ user.phone }}</p>
+        <span>
+            <a href="{{ path('espace.edit_infos', {'id': user.id}) }}" class="btn border bg-custom-pink fs-4 p-2 m-2 d-flex justify-content-center">Modifier</a>
+        </span>
+    </div>
+</div>
+
+{% endblock %}
