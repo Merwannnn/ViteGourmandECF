@@ -125,9 +125,7 @@ final class CommandeController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_ADMIN')]
-    #[IsGranted('ROLE_EMPLOYE')]
-    #[IsGranted('ROLE_USER')]
+    #[Security('is_granted("ROLE_EMPLOYE") or is_granted("ROLE_ADMIN") or is_granted("ROLE_USER")')]
     #[Route('/{id}', name: 'commande.delete', methods: ['POST'])]
     public function delete(Request $request, Commande $commande, EntityManagerInterface $entityManager): Response
     {
