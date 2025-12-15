@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class EspaceUtilisateurController extends AbstractController
 {
-    #[IsGranted("ROLE_USER")]
+    #[IsGranted('ROLE_USER')]
     #[Route('/mon-espace', name: 'espace.index')]
     public function index(): Response
     {
@@ -25,7 +25,7 @@ final class EspaceUtilisateurController extends AbstractController
         ]);
     }
 
-    #[IsGranted("ROLE_USER")]
+    #[IsGranted('ROLE_USER')]
     #[Route('/mon-espace/mes-commandes', name: 'espace.show_commandes')]
     public function showAllCommandes(CommandeRepository $repository): Response
     {
@@ -36,7 +36,7 @@ final class EspaceUtilisateurController extends AbstractController
         
     }
 
-    #[IsGranted("USER_EDIT", subject: 'user')]
+    #[IsGranted('USER_EDIT', subject: 'user')]
     #[Route('/mon-espace/{id}/modifier-mes-informations', name: 'espace.edit_infos', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager) : Response
     {

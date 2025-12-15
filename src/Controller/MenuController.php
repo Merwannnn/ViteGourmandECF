@@ -23,8 +23,8 @@ final class MenuController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/create', name: 'menu.create', methods: ['GET', 'POST'])]
-    #[IsGranted("ROLE_ADMIN")]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $menu = new Menu();
@@ -52,8 +52,8 @@ final class MenuController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}/edit', name: 'menu.edit', methods: ['GET', 'POST'])]
-    #[IsGranted("ROLE_ADMIN")]
     public function edit(Request $request, Menu $menu, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(MenuType::class, $menu);
@@ -71,8 +71,8 @@ final class MenuController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}', name: 'menu.delete', methods: ['POST'])]
-    #[IsGranted("ROLE_ADMIN")]
     public function delete(Request $request, Menu $menu, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$menu->getId(), $request->getPayload()->getString('_token'))) {

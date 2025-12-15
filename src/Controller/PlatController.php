@@ -13,8 +13,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class PlatController extends AbstractController
 {
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/plat/create', name: 'plat.create', methods: ['GET', 'POST'])]
-    #[IsGranted("ROLE_ADMIN")]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $plat = new Plat();
