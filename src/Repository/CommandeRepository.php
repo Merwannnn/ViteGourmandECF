@@ -48,6 +48,30 @@ class CommandeRepository extends ServiceEntityRepository
             ->getResult();
         
     }
+
+    public function findAllWithUserAndMenuAndFilters(?string $userName = null, ?string $statut = null) : array 
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->leftJoin('c.user', 'u')
+            ->addSelect('u')
+            ->leftJoin('c.menu', 'm')
+            ->addSelect('m')
+            ->leftJoin('c.avis', 'a')
+            ->addSelect('a')
+            ->orderBy('c.dateCommande', 'DESC');
+
+        if ($userName) {
+            $queryBuilder->andWhere('u.name LIKE :userName')
+                ->setParameter('userName', '%' . $userName . '%');
+        }
+
+        if ($statut) {
+            $queryBuilder->andWhere('c.statut = :statut')
+                ->setParameter('statut', $statut);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 //    /**
 //     * @return Commande[] Returns an array of Commande objects
 //     */

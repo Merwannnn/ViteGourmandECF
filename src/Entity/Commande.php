@@ -60,7 +60,7 @@ class Commande
     /**
      * @var Collection<int, Avis>
      */
-    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'commande')]
+    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'commande', cascade: ['remove'])]
     private Collection $avis;
 
     public function __construct()

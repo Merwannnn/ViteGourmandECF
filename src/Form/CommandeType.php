@@ -49,19 +49,6 @@ class CommandeType extends AbstractType
                 'widget' => 'single_text'
             ])
             ->add('nombrePersonne')
-            ->add('statut', ChoiceType::class, [
-                'choices' => [
-                    'Commande passée' => 'Commande passée',
-                    'Accepté' => 'Accepté',
-                    'En préparation' => 'En préparation',
-                    'En cours de livraison' => 'En cours de livraison',
-                    'Livré' => 'Livré',
-                    'En attente du retour de matériel' => 'En attente du retour de matériel',
-                    'Terminée' => 'Terminée'
-                ]
-            ])
-            ->add('pretMateriel')
-            ->add('restitutionMateriel')
             ->add('prixLivraison', NumberType::class, [
                 'data' => 5.99,
                 'disabled' => true

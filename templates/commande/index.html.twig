@@ -5,6 +5,17 @@
 {% block body %}
 <h1>Commande client</h1>
 
+<div class="border bg-custom-pink rounded p-2 mb-4">
+    <div class="fs-1 fw-semibold text-center">Filtre</div>
+    <div class="bg-custom-black-pink border rounded p-2">
+    {{ form_start(form, { method: 'get' }) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.statut) }}
+        <button type="submit" class="btn btn-secondary">Appliquer</button>
+    {{ form_end(form) }}
+    </div>
+</div>
+
 {% for commande in commandes %}
     {% if is_granted('ROLE_ADMIN') %}
     <div class="border bg-custom-pink rounded p-2 mb-1">
@@ -23,8 +34,8 @@
                 <span class="fs-3 border bg-custom-pink rounded p-1">Adresse du client: {{ commande.adresseLivraison }}</span><br><br>
                 <span class="fs-3 border bg-custom-pink rounded p-1">Prix du menu: {{ commande.prixMenu }}€</span>
                 <span class="fs-3 border bg-custom-pink rounded p-1">Prix de la livraison: {{ commande.prixLivraison }}€</span><br><br>
-                <span class="fs-3 border bg-custom-pink rounded p-1">Prêt de matériel: {{ commande.pretMateriel }}</span>
-                <span class="fs-3 border bg-custom-pink rounded p-1">Réstitution du matériel: {{ commande.restitutionMateriel }}</span>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Prêt de matériel: {{ commande.pretMateriel ? 'Oui' : 'Non' }}</span>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Réstitution du matériel: {{ commande.restitutionMateriel ? 'Oui' : 'Non'  }}</span>
                 <span class="fs-3 border bg-custom-pink rounded p-1">Statut actuelle: {{ commande.statut }}</span><br><br>
 
                 <div class="d-flex justify-content-end">
