@@ -26,6 +26,7 @@ class ContactType extends AbstractType
             ])
             ->add('service', ChoiceType::class, [
                 'choices' => [
+                    'Retour matériel' => 'retour@demo.fr',
                     'Support' => 'support@demo.fr',
                     'Aide lié à une commande' => 'help@demo.fr',
                     'Demande de renseignement' => 'renseignement@demo.fr'
