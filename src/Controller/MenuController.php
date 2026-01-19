@@ -52,7 +52,7 @@ final class MenuController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_EMPLOYE')]
     #[Route('/{id}/edit', name: 'menu.edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Menu $menu, EntityManagerInterface $entityManager): Response
     {
@@ -71,7 +71,7 @@ final class MenuController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_EMPLOYE')]
     #[Route('/{id}', name: 'menu.delete', methods: ['POST'])]
     public function delete(Request $request, Menu $menu, EntityManagerInterface $entityManager): Response
     {

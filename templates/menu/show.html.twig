@@ -27,12 +27,16 @@
                 <span class="fs-3 border bg-custom-pink rounded p-1">Allergene: {{ plat.allergene }}</span><br><br>
             </div>
             {% endfor %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYE') %}  
+
+            {% else %}
             <div class="text-end">
                 <a href="{{ path('commande.create', {'id': menu.id}) }}" class="btn btn-primary fs-4 p-2 m-2">Commander</a>
             </div>
+            {% endif %}
         </div>
 </div>
-{% if is_granted('ROLE_ADMIN') %}  
+{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYE') %}  
 <div class="text-end">
     <a href="{{ path('menu.edit', {'id': menu.id}) }}" class="btn btn-primary fs-4 p-2 m-2">Modifier</a>
 </div>
