@@ -19,9 +19,6 @@ class PlatType extends AbstractType
             ->add('platTitle')
             ->add('allergene')
             ->add('thumbnailFile', FileType::class)
-            ->add('save', SubmitType::class, [
-                'label' => 'Sauvegarder'
-            ])
         ;
     }
 

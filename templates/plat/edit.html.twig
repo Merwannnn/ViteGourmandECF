@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouveau plat{% endblock %}
+{% block title %}Modifier le plat{% endblock %}
 
 {% block body %}
-<h1>Créer un nouveau plat</h1>
+<h1>Modifier le plat</h1>
 
 {{ include('plat/_form.html.twig') }}
 
 <a href="{{ path('plat.index') }}" class="btn border bg-custom-pink fs-4 p-2 m-2">Retour à la page précédente</a>
+
 {% endblock %}

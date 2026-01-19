@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Plats{% endblock %}
+
+{% block header %}
+<header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+    <div class="container-fluid">
+        <p>Plats</p>
+    </div>
+</header>
+{% endblock %}
+
+{% block body %}
+{% if is_granted('ROLE_EMPLOYE') %}
+    <a href="{{ path('plat.create') }}" class="btn btn-secondary fs-4 p-2 m-2">Créer un nouveau plat</a>
+{% endif %}
+
+{% for plat in plats %}
+    <div class="border bg-custom-pink rounded p-2 mb-4">
+        <div class="fs-1 fw-semibold">{{ plat.platTitle }}</div>
+        <div class="bg-custom-black-pink border rounded p-2">
+            <div>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Allergene: {{ plat.allergene }}</span>
+            </div>
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYE') %}
+            <div class="d-flex align-items-center justify-content-end">
+                <span><a href="{{ path('plat.edit', {'id': plat.id}) }}" class="btn bg-custom-pink shadow-inner-drop rounded-2 fs-2 me-2">Modifier</a></span>
+                <span>{{ include('plat/_delete_form.html.twig') }}</span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% else %}
+<div colspan="8">Aucun plat disponible</div>
+{% endfor %}
+{% endblock %}
