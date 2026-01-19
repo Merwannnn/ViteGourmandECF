@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Horaires{% endblock %}
+
+{% block body %}
+<h1>Liste des horaires</h1>
+
+{% for horaire in horairesIndex %}
+    <div class="border bg-custom-pink rounded p-2 mb-4">
+        <div class="fs-1 fw-semibold">{{ horaire.jour }}</div>
+        <div class="bg-custom-black-pink border rounded p-2">
+            <div>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Heure d'ouverture: {{ horaire.heureOuverture|date('H:i') }}</span><br><br>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Heure de fermeture: {{ horaire.heureFermeture|date('H:i') }}</span>
+            </div>
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYE') %}
+            <div class="text-end">
+                <a href="{{ path('horaire.edit', {'id': horaire.id}) }}" class="btn bg-custom-pink shadow-inner-drop rounded-2 fs-2 me-2">Modifier</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% else %}
+<div colspan="8">Aucun horaire disponible</div>
+{% endfor %}
+{% endblock %}

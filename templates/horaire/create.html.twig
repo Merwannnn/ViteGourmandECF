@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle horaire{% endblock %}
+
+{% block body %}
+<h1>Créer un horaire</h1>
+
+{{ include('horaire/_form.html.twig') }}
+
+<a href="{{ path('espace_employe.index') }}" class="btn border bg-custom-pink fs-4 p-2 m-2">Retour à la page précédente</a>
+{% endblock %}
