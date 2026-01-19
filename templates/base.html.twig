@@ -28,10 +28,16 @@
                         <li class="nav-item">
                             <a class="nav-link {{ app.current_route == 'contact' ? 'active' : '' }}" href="/contact">Contact</a>
                         </li>
+                        {% if is_granted('ROLE_EMPLOYE') or is_granted('ROLE_ADMIN') %} 
+                        <li class="nav-item">
+                            <a class="nav-link {{ app.current_route == 'espace_employe.index' ? 'active' : '' }}" href="/espace-employe">Mon Espace</a>
+                        </li>
+                        {% else %}
                         <li class="nav-item">
                             <a class="nav-link {{ app.current_route == 'espace.index' ? 'active' : '' }}" href="/mon-espace">Mon Espace</a>
                         </li>
-                        {% if is_granted('ROLE_USER') %}                    
+                        {% endif %}
+                        {% if is_granted('ROLE_USER') or is_granted('ROLE_EMPLOYE') or is_granted('ROLE_ADMIN') %}                    
                         <li class="nav-item">
                             <a class="nav-link {{ app.current_route == 'app_logout' ? 'active' : '' }}" href="/logout">Déconnexion</a>
                         </li>
@@ -55,7 +61,20 @@
         {% block footer %}
         <footer class="mt-auto bottom-0 start-0 end-0 bg-dark text-white text-center py-2">
             <div class="container-fluid">
-                <p>Ceci est un footer</p>
+            {% for horaire in horaires.show %}
+                <p>
+                    {{ horaire.jour}}
+
+                    {% if horaire.heureOuverture and horaire.heureFermeture %}
+                        {{ horaire.heureOuverture|date('H:i') }}
+                        {{ horaire.heureFermeture|date('H:i') }}
+                    {% endif %}
+                    
+                    {% if horaire.exception %}
+                        {{ horaire.exception }}
+                    {% endif %}
+                </p>
+            {% endfor %}
             </div>
         </footer>
         {% endblock %}
