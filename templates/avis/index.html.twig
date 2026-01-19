@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Avis{% endblock %}
+
+{% block body %}
+<h1>Liste des avis</h1>
+
+{% for avi in avis %}
+{% if avi.statut == 'Soumis' %}
+    <div class="border bg-custom-pink rounded p-2 mb-4">
+        <div class="fs-1 fw-semibold">{{ avi.note }}</div>
+        <div class="bg-custom-black-pink border rounded p-2">
+            <div>
+                <div class="fs-3 pb-4">{{ avi.commentaire }}</div>
+            </div>
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYE') %}
+            <div class="d-flex align-items-center justify-content-end">
+                <span><a href="{{ path('avis.edit', {'id': avi.id}) }}" class="btn bg-custom-pink shadow-inner-drop rounded-2 fs-2 me-2">Modifier</a></span>
+                <span>{{ include('avis/_delete_form.html.twig') }}</span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% else %}
+    <div colspan="8">Fin des avis</div>
+{% endif %}
+{% else %}
+<div colspan="8">Aucun avis disponible</div>
+{% endfor %}
+{% endblock %}

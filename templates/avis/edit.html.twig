@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'avis{% endblock %}
+
+{% block body %}
+<h1>Modifier l'avis</h1>
+
+{{ include('avis/_form.html.twig') }}
+
+<a href="{{ path('avis.index') }}" class="btn border bg-custom-pink fs-4 p-2 m-2">Retour à la page précédente</a>
+
+{% endblock %}

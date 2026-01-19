@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Avis;
 use App\Entity\Commande;
 use App\Form\AvisType;
+use App\Form\EmployeAvisType;
 use App\Repository\AvisRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,6 +16,15 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class AvisController extends AbstractController
 {
+    #[IsGranted('ROLE_EMPLOYE')]
+    #[Route('/avis', name: 'avis.index', methods: ['GET'])]
+    public function index(AvisRepository $avisRepository) : Response
+    {
+        return $this->render('avis/index.html.twig', [
+            'avis' => $avisRepository->findAll()
+        ]);
+    }
+
     #[IsGranted('ROLE_USER')]
     #[Route('/avis/create/{id}', name: 'avis.create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager, Commande $commande, AvisRepository $repository): Response
@@ -46,5 +56,35 @@ final class AvisController extends AbstractController
         return $this->render('avis/create.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[IsGranted('ROLE_EMPLOYE')]
+    #[Route('/avis/{id}/edit', name: 'avis.edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Avis $avis, EntityManagerInterface $entityManager) : Response
+    {
+        $form = $this->createForm(EmployeAvisType::class, $avis);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('avis.index', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->render('avis/edit.html.twig', [
+            'avis' => $avis,
+            'form' => $form
+        ]);
+    }
+
+    #[IsGranted('ROLE_EMPLOYE')]
+    #[Route('/avis/{id}', name: 'avis.delete', methods: ['POST'])]
+    public function delete(Request $request, Avis $avis, EntityManagerInterface $entityManager) : Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$avis->getId(), $request->getPayload()->getString('_token'))) {
+            $entityManager->remove($avis);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('avis.index', [], Response::HTTP_SEE_OTHER);
     }
 }
