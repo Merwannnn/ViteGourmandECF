@@ -43,6 +43,7 @@ final class AvisController extends AbstractController
         $avis = new Avis;
         $avis->setCommande($commande);
         $avis->setUser($user);
+        $avis->setStatut('Soumis');
         $form = $this->createForm(AvisType::class, $avis);
         $form->handleRequest($request);
 
@@ -60,20 +61,12 @@ final class AvisController extends AbstractController
 
     #[IsGranted('ROLE_EMPLOYE')]
     #[Route('/avis/{id}/edit', name: 'avis.edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Avis $avis, EntityManagerInterface $entityManager) : Response
+    public function edit(Avis $avis, EntityManagerInterface $entityManager) : Response
     {
-        $form = $this->createForm(EmployeAvisType::class, $avis);
-        $form->handleRequest($request);
+        $avis->setStatut('Validé');
+        $entityManager->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-            
-            return $this->redirectToRoute('avis.index', [], Response::HTTP_SEE_OTHER);
-        }
-        return $this->render('avis/edit.html.twig', [
-            'avis' => $avis,
-            'form' => $form
-        ]);
+        return $this->redirectToRoute('avis.index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[IsGranted('ROLE_EMPLOYE')]

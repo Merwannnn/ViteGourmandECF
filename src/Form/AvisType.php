@@ -28,12 +28,6 @@ class AvisType extends AbstractType
             ->add('commentaire', TextareaType::class, [
                 'label' => 'Votre avis'
             ])
-            ->add('statut', ChoiceType::class, [
-                'choices' => [
-                    'Soumis' => 'Soumis',
-                    'Validé' => 'Validé',
-                ]
-            ])
         ;
     }
 
