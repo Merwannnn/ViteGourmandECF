@@ -27,6 +27,9 @@
                 <span class="fs-3 border bg-custom-pink rounded p-1">Allergene: {{ plat.allergene }}</span><br><br>
             </div>
             {% endfor %}
+            <div>
+                <p class="fs-2 rounded p-1">Conditions: {{ menu.conditions }}</p><br><br>
+            </div>
             {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYE') %}  
 
             {% else %}

@@ -50,6 +50,9 @@ class Menu
     #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'menu')]
     private Collection $commandes;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $conditions = null;
+
     public function __construct()
     {
         $this->plat = new ArrayCollection();
@@ -195,6 +198,18 @@ class Menu
                 $commande->setMenu(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getConditions(): ?string
+    {
+        return $this->conditions;
+    }
+
+    public function setConditions(?string $conditions): static
+    {
+        $this->conditions = $conditions;
 
         return $this;
     }

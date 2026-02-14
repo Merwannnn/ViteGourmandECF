@@ -53,6 +53,9 @@ class MenuType extends AbstractType
             ->add('description', TextType::class, [
                 'label' => 'Description'
             ])
+            ->add('conditions', TextType::class, [
+                'label' => 'Conditions'
+            ])
             ->add('quantiteRestante', IntegerType::class, [
                 'label' => 'Quantité restante'
             ])
