@@ -16,6 +16,8 @@
         <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
         <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
+        <p class="fs-2">Vous avez oubliez votre mot de passe, <a href="{{ path('app_forgot_password_request') }}">Reinitialiser le ici !</a></p>
+
         <div class="checkbox mb-3">
             <input type="checkbox" name="_remember_me" id="_remember_me">
             <label for="_remember_me" class="fs-2">Se souvenir de moi</label>
