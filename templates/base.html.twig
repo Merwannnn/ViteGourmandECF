@@ -75,6 +75,10 @@
                     {% endif %}
                 </p>
             {% endfor %}
+            <p class="d-flex align-items-center justify-content-center">
+                <a href="{{ path('conditions_generales') }}" class="fs-6 p-2 m-2 text-decoration-none link-light">Conditions générale de vente</a> |
+                <a href="{{ path('mentions_legal') }}" class="fs-6 p-2 m-2 text-decoration-none link-light">Mention légales</a>
+            </p>
             </div>
         </footer>
         {% endblock %}

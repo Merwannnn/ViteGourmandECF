@@ -3,3 +3,15 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+mentions_legal:
+    path: /mentions-legales
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController
+    defaults:
+        template: 'conditions/mentions_legales.html.twig'
+
+conditions_generales:
+    path: /conditions-generales-de-vente
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController
+    defaults:
+        template: 'conditions/conditions_generales_vente.html.twig'
