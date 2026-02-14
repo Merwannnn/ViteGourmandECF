@@ -25,6 +25,25 @@
 {% endblock %}
 
 {% block body %}
+{% if is_granted('ROLE_ADMIN') %}
+<div class="border bg-custom-pink rounded p-2 mb-4">
+    <div class="titleFontSize fw-semibold text-center">Comptes-employés</div>
+    <div class="bg-custom-black-pink border rounded p-2">
+        <a href="{{ path('espace_employe.indexComptes') }}" class="btn border bg-custom-pink fs-4 p-2 m-2 d-flex justify-content-center">Gestion des comptes</a>
+    </div>
+</div>
+{% endif %}
+<div class="border bg-custom-pink rounded p-2 mb-4">
+    <div class="titleFontSize fw-semibold text-center">Commandes</div>
+    <div class="bg-custom-black-pink border rounded p-2">
+        <a href="{{ path('commande.index') }}" class="btn border bg-custom-pink fs-4 p-2 m-2 d-flex justify-content-center">Gestion des commandes</a>
+        {{ form_start(form, { method: 'get' }) }}
+            {{ form_row(form.username) }}
+            {{ form_row(form.statut) }}
+            <button type="submit" class="btn btn-secondary">Appliquer</button>
+        {{ form_end(form) }}
+    </div>
+</div>
 <div class="border bg-custom-pink rounded p-2 mb-4">
     <div class="titleFontSize fw-semibold text-center">Menus</div>
     <div class="bg-custom-black-pink border rounded p-2">
@@ -35,17 +54,6 @@
     <div class="titleFontSize fw-semibold text-center">Plats</div>
     <div class="bg-custom-black-pink border rounded p-2">
         <a href="{{ path('plat.index') }}" class="btn border bg-custom-pink fs-4 p-2 m-2 d-flex justify-content-center">Gestion des plats</a>
-    </div>
-</div>
-<div class="border bg-custom-pink rounded p-2 mb-4">
-    <div class="titleFontSize fw-semibold text-center">Commandes</div>
-    <div class="bg-custom-black-pink border rounded p-2">
-        <a href="{{ path('commande.index') }}" class="btn border bg-custom-pink fs-4 p-2 m-2 d-flex justify-content-center">Gestion des commandes</a>
-        {{ form_start(form, { method: 'get' }) }}
-            {{ form_row(form.username) }}
-            {{ form_row(form.statut) }}
-            <button type="submit" class="btn btn-secondary">Appliquer</button>
-        {{ form_end(form) }}
     </div>
 </div>
 <div class="border bg-custom-pink rounded p-2 mb-4">

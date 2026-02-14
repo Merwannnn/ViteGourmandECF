@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Comptes{% endblock %}
+
+{% block header %}
+    <header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+        <div class="container-fluid">
+            <p>Comptes employé</p>
+        </div>
+    </header>
+{% endblock %}
+
+{% block body %}
+
+{% if is_granted('ROLE_ADMIN') %}
+    <div class="border bg-custom-pink rounded p-2 mb-4">
+        <div class="fs-1 fw-semibold text-center">Création de comptes</div>
+        <div class="bg-custom-black-pink border rounded p-2">
+        {{ form_start(form) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.plainPassword) }}
+            <button type="submit" class="btn btn-secondary">Créer</button>
+        {{ form_end(form) }}
+        </div>
+    </div>
+
+{% for user in users %}
+    <div class="border bg-custom-pink rounded p-2 mb-2">
+        <div class="bg-custom-black-pink border rounded p-2">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="fs-3">{{ user.email }}</div>
+                {{ include('espace_employe/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+{% else %}
+<div colspan="8">Aucun employé</div>
+{% endfor %}
+{% endif %}
+{% endblock %}

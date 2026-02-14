@@ -2,16 +2,30 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Form\EmployeRegistrationType;
 use App\Form\FiltreCommandeType;
 use App\Repository\CommandeRepository;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class EspaceEmployeController extends AbstractController
 {
+    private MailerInterface $mailer;
+
+    public function __construct(MailerInterface $mailer)
+    {
+        $this->mailer = $mailer;
+    }
+
     #[IsGranted('ROLE_EMPLOYE')]
     #[Route('/espace-employe', name: 'espace_employe.index', methods: ['GET'])]
     public function index(CommandeRepository $commandeRepository, Request $request): Response
@@ -37,5 +51,56 @@ final class EspaceEmployeController extends AbstractController
             'commandes' => $commandeRepository->findAllWithUserAndMenuAndFilters($userName, $statut),
             'form' => $form
         ]);
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/espace-employe/comptes', name: 'espace_employe.indexComptes', methods: ['GET', 'POST'])]
+    public function indexComptes(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserRepository $userRepository) : Response
+    {
+        $user = new User();
+        $form = $this->createForm(EmployeRegistrationType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var string $plainPassword */
+            $plainPassword = $form->get('plainPassword')->getData();
+
+            // encode the plain password
+            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+
+            $user->setRoles(["ROLE_EMPLOYE"]);
+            $user->setName('');
+            $user->setPhone('');
+            $user->setAddress('');
+            $user->setIsVerified(true);
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $mail = (new TemplatedEmail())
+                ->from('support@ViteEtGourmand.fr')
+                ->to((string) $user->getEmail())
+                ->subject('Un compte employé a été créer pour vous')
+                ->htmlTemplate('registration/employe_registration_email.html.twig');
+
+                $this->mailer->send($mail);
+        }
+
+        return $this->render('espace_employe/indexComptes.html.twig', [
+            'users' => $userRepository->findEmploye(),
+            'form' => $form,
+        ]);
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/espace-employe/comptes/{id}', name: 'userEmploye.delete', methods: ['POST'])]
+    public function delete(Request $request, User $user, EntityManagerInterface $entityManager) : Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->getPayload()->getString('_token'))) {
+            $entityManager->remove($user);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('espace_employe.indexComptes', [], Response::HTTP_SEE_OTHER);
     }
 }
