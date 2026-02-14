@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Menu;
+use App\Form\FiltreMenuType;
 use App\Form\MenuType;
 use App\Repository\MenuRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,10 +17,23 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class MenuController extends AbstractController
 {
     #[Route(name: 'menu.index', methods: ['GET'])]
-    public function index(MenuRepository $menuRepository): Response
+    public function index(Request $request, MenuRepository $menuRepository): Response
     {
+        $form = $this->createForm(FiltreMenuType::class);
+        $form->handleRequest($request);
+
+        $filters = $form->getData() ?? [];
+        $menu = $menuRepository->findByMenuAndThemeFilters($filters);
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('menu/menu.html.twig', [
+                 'menus' => $menu,
+            ]);
+        }
+
         return $this->render('menu/index.html.twig', [
-            'menus' => $menuRepository->findAll(),
+            'form' => $form,
+            'menus' => $menu,
         ]);
     }
 

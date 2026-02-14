@@ -1,39 +1,3 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Menu disponible{% endblock %}
-
-{% block header %}
-    <header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
-        <div class="container-fluid">
-            <p>Menus</p>
-        </div>
-    </header>
-{% endblock %}
-
-{% block body %}
-
-<div class="border bg-custom-pink rounded p-2 mb-4">
-    <div class="fs-1 fw-semibold text-center">Filtre</div>
-    <div class="bg-custom-black-pink border rounded p-2">
-    {{ form_start(form, { method: 'get', attr: { id: 'form-filters' } }) }}
-        {{ form_row(form.prixMax) }}
-        {{ form_row(form.prixMin) }}
-        {{ form_row(form.theme) }}
-        {{ form_row(form.regime) }}
-        {{ form_row(form.personneMin) }}
-        <button type="button" id="btn-menu-filters" class="btn btn-secondary">Appliquer</button>
-    {{ form_end(form) }}
-    </div>
-</div>
-
-{% if is_granted('ROLE_ADMIN') %}
-<div>
-    <a href="{{ path('menu.create') }}" class="btn btn-danger fs-4 p-2 m-2">Créer un nouveau menu</a>
-    <a href="{{ path('plat.create') }}" class="btn btn-secondary fs-4 p-2 m-2">Créer un nouveau plat</a>
-</div>
-{% endif %}
-
-<div id="menu-container">
 {% for menu in menus %}
     {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYE') %}
     <div class="border bg-custom-pink rounded p-2 mb-1" id="">
@@ -61,6 +25,3 @@
 {% else %}
 <div colspan="8">Aucun menu disponible</div>
 {% endfor %}
-</div>
-<script src="{{ asset('js/menu_filtre.js') }}"></script>
-{% endblock %}
