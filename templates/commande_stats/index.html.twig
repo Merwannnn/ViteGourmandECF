@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques des commandes{% endblock %}
+
+{% block header %}
+    <header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+        <div class="container-fluid">
+            <p>Statistiques des commandes</p>
+        </div>
+    </header>
+{% endblock %}
+
+{% block body %}
+<div class="border bg-custom-pink rounded p-2 mb-4">
+    <div class="fs-1 fw-semibold text-center">Statistiques des commandes par menu</div>
+    <div class="bg-custom-black-pink border rounded p-2">
+        <canvas id="chart" width="400" height="200"></canvas>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+            const menusTitle = {{ menusTitle|json_encode|raw }};
+            const nbCommandes = {{ nbCommandes|json_encode|raw }};
+
+            new Chart(document.getElementById('chart'), {
+                type: 'bar',
+                data: {
+                    labels: menusTitle,
+                    datasets: [{
+                        label: 'Nombre de commandes',
+                        data: nbCommandes,
+                        backgroundColor: '#e47b7b',
+                        borderColor: 'rgb(255, 255, 255)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+    </div>
+</div>
+{% endblock %}
