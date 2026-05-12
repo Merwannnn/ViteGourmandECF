@@ -63,9 +63,16 @@ class Commande
     #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'commande', cascade: ['remove'])]
     private Collection $avis;
 
+    /**
+     * @var Collection<int, CommandeStatutHistorique>
+     */
+    #[ORM\OneToMany(targetEntity: CommandeStatutHistorique::class, mappedBy: 'commande', orphanRemoval: true)]
+    private Collection $statutHistorique;
+
     public function __construct()
     {
         $this->avis = new ArrayCollection();
+        $this->statutHistorique = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -253,6 +260,36 @@ class Commande
             // set the owning side to null (unless already changed)
             if ($avi->getCommande() === $this) {
                 $avi->setCommande(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CommandeStatutHistorique>
+     */
+    public function getStatutHistorique(): Collection
+    {
+        return $this->statutHistorique;
+    }
+
+    public function addStatutHistorique(CommandeStatutHistorique $statutHistorique): static
+    {
+        if (!$this->statutHistorique->contains($statutHistorique)) {
+            $this->statutHistorique->add($statutHistorique);
+            $statutHistorique->setCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStatutHistorique(CommandeStatutHistorique $statutHistorique): static
+    {
+        if ($this->statutHistorique->removeElement($statutHistorique)) {
+            // set the owning side to null (unless already changed)
+            if ($statutHistorique->getCommande() === $this) {
+                $statutHistorique->setCommande(null);
             }
         }
 

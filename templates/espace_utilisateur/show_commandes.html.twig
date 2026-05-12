@@ -2,9 +2,15 @@
 
 {% block title %}Mon espace{% endblock %}
 
-{% block body %}
-<h1>Mes commandes</h1>
+{% block header %}
+    <header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+        <div class="container-fluid">
+            <p>Mes Commandes</p>
+        </div>
+    </header>
+{% endblock %}
 
+{% block body %}
 {% for commande in commandes %}
     <div class="border bg-custom-pink rounded p-2 mb-4">
         <div class="fs-1 fw-semibold">{{ commande.menu.title }} | {{ commande.numeroCommande }}</div>
@@ -22,6 +28,9 @@
                 <span class="fs-3 border bg-custom-pink rounded p-1">Prêt de matériel: {{ commande.pretMateriel ? 'Oui' : 'Non' }}</span>
                 <span class="fs-3 border bg-custom-pink rounded p-1">Réstitution du matériel: {{ commande.restitutionMateriel ? 'Oui' : 'Non'  }}</span>
                 <span class="fs-3 border bg-custom-pink rounded p-1">Statut actuelle: {{ commande.statut }}</span><br><br>
+                {% for status in commande.statutHistorique %}
+                    <span class="fs-3 border bg-custom-pink rounded p-1">Historique des statuts: {{ status.statutSuivant }} - {{ status.updatedAt|date('Y-m-d H:i') }}</span><br><br>
+                {% endfor %}
 
             </div>
             <div class="text-start">
