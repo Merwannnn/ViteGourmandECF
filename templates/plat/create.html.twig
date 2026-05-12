@@ -2,9 +2,15 @@
 
 {% block title %}Nouveau plat{% endblock %}
 
-{% block body %}
-<h1>Créer un nouveau plat</h1>
+{% block header %}
+    <header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+        <div class="container-fluid">
+            <p>Nouveau Plat</p>
+        </div>
+    </header>
+{% endblock %}
 
+{% block body %}
 {{ include('plat/_form.html.twig') }}
 
 <a href="{{ path('plat.index') }}" class="btn border bg-custom-pink fs-4 p-2 m-2">Retour à la page précédente</a>

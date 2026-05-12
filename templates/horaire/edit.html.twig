@@ -2,10 +2,16 @@
 
 {% block title %}Modifier un horaire{% endblock %}
 
-{% block body %}
-<h1>Modifier un horaire</h1>
+{% block header %}
+    <header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+        <div class="container-fluid">
+            <p>Modifier un horaire</p>
+        </div>
+    </header>
+{% endblock %}
 
+{% block body %}
 {{ include('horaire/_form.html.twig') }}
 
-<a href="{{ path('espace_employe.index') }}" class="btn border bg-custom-pink fs-4 p-2 m-2">Retour à la page précédente</a>
+<a href="{{ path('horaire.index') }}" class="btn border bg-custom-pink fs-4 p-2 m-2">Retour à la page précédente</a>
 {% endblock %}

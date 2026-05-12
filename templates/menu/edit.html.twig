@@ -2,9 +2,15 @@
 
 {% block title %}Modifier le menu{% endblock %}
 
-{% block body %}
-<h1>Modifier le menu</h1>
+{% block header %}
+    <header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+        <div class="container-fluid">
+            <p>Modifier le menu</p>
+        </div>
+    </header>
+{% endblock %}
 
+{% block body %}
 {{ include('menu/_form.html.twig') }}
 
 <a href="{{ path('menu.index') }}" class="btn border bg-custom-pink fs-4 p-2 m-2">Retour à la page précédente</a>

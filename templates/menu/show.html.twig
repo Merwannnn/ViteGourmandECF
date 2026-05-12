@@ -2,9 +2,17 @@
 
 {% block title %}Menu{% endblock %}
 
+{% block header %}
+    <header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+        <div class="container-fluid">
+            <p>Menus</p>
+        </div>
+    </header>
+{% endblock %}
+
 {% block body %}
 <div class="border bg-custom-pink rounded p-2 mb-4">
-        <div class="fs-1 fw-semibold">{{ menu.title }}</div>
+        <div class="fs-1 fw-semibold text-center">{{ menu.title }}</div>
         <div class="bg-custom-black-pink border rounded p-2">
             <div class="fs-3 pb-4">{{ menu.description }}</div>
             <ul class="flex-wrap border bg-light rounded d-flex justify-content-center list-unstyled p-1">

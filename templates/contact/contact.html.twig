@@ -2,16 +2,26 @@
 
 {% block title %}Nous Contacter{% endblock %}
 
-{% block body %}
-    <h1>Nous Contacter</h1><br>
+{% block header %}
+    <header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+        <div class="container-fluid">
+            <p>Nous Contacter</p>
+        </div>
+    </header>
+{% endblock %}
 
-    {{ form_start(form) }}
-    <div class="row">
-        <div class="col-sm fs-3">{{ form_row(form.name) }}</div>
-        <div class="col-sm fs-3">{{ form_row(form.email) }}</div>
-        <div class="col-sm fs-3">{{ form_row(form.service) }}</div>
-    </div>
-    <div class="fs-3">{{ form_row(form.message) }}</div>
-    <button type="submit" class="btn btn-primary fs-3">Envoyer</button>
-    {{ form_end(form) }}
+{% block body %}
+<div class="border bg-custom-pink rounded p-2 mb-4">
+	<div class="bg-custom-black-pink border rounded p-2">
+		{{ form_start(form) }}
+            <div class="row">
+                <div class="col-sm fs-3">{{ form_row(form.name) }}</div>
+                <div class="col-sm fs-3">{{ form_row(form.email) }}</div>
+                <div class="col-sm fs-3">{{ form_row(form.service) }}</div>
+            </div>
+            <div class="fs-3">{{ form_row(form.message) }}</div>
+            <button type="submit" class="btn btn-primary fs-3">Envoyer</button>
+		{{ form_end(form) }}
+	</div>
+</div>
 {% endblock %}

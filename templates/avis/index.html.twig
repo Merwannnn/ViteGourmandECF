@@ -2,9 +2,15 @@
 
 {% block title %}Avis{% endblock %}
 
-{% block body %}
-<h1>Liste des avis</h1>
+{% block header %}
+    <header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+        <div class="container-fluid">
+            <p>Liste des avis</p>
+        </div>
+    </header>
+{% endblock %}
 
+{% block body %}
 {% for avi in avis %}
 {% if avi.statut == 'Soumis' %}
     <div class="border bg-custom-pink rounded p-2 mb-4">

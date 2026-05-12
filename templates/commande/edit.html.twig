@@ -2,11 +2,21 @@
 
 {% block title %}Modifier la commande{% endblock %}
 
-{% block body %}
-<h1>Modifier le menu</h1>
+{% block header %}
+    <header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+        <div class="container-fluid">
+            <p>Modifier la commande</p>
+        </div>
+    </header>
+{% endblock %}
 
+{% block body %}
 {{ include('commande/_form.html.twig') }}
 
-<a href="{{ path('commande.index') }}" class="btn border bg-custom-pink fs-4 p-2 m-2">Retour à la page précédente</a>
+{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYE') %}
+	<a href="{{ path('commande.index') }}" class="btn border bg-custom-pink fs-4 p-2 m-2">Retour à la page précédente</a>
+{% else %}
+	<a href="{{ path('espace.show_commandes') }}" class="btn border bg-custom-pink fs-4 p-2 m-2">Retour à la page précédente</a>
+{% endif %}
 
 {% endblock %}

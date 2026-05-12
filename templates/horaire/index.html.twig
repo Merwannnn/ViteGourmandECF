@@ -2,16 +2,23 @@
 
 {% block title %}Horaires{% endblock %}
 
-{% block body %}
-<h1>Liste des horaires</h1>
+{% block header %}
+    <header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+        <div class="container-fluid">
+            <p>Liste des horaires</p>
+        </div>
+    </header>
+{% endblock %}
 
+{% block body %}
 {% for horaire in horairesIndex %}
     <div class="border bg-custom-pink rounded p-2 mb-4">
         <div class="fs-1 fw-semibold">{{ horaire.jour }}</div>
         <div class="bg-custom-black-pink border rounded p-2">
             <div>
                 <span class="fs-3 border bg-custom-pink rounded p-1">Heure d'ouverture: {{ horaire.heureOuverture|date('H:i') }}</span><br><br>
-                <span class="fs-3 border bg-custom-pink rounded p-1">Heure de fermeture: {{ horaire.heureFermeture|date('H:i') }}</span>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Heure de fermeture: {{ horaire.heureFermeture|date('H:i') }}</span><br><br>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Exception: {{ horaire.exception }}</span>
             </div>
             {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYE') %}
             <div class="text-end">
