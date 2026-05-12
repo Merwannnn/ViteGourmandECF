@@ -2,10 +2,26 @@
 
 {% block title %}Commande{% endblock %}
 
+{% block header %}
+    <header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+        <div class="container-fluid">
+            <p>Nouvelle Commande</p>
+        </div>
+    </header>
+{% endblock %}
+
 {% block body %}
-<h1>Nouvelle commande</h1>
+<div id="message_promo" class"text-success"></div>
 
 {{ include('menu/_form.html.twig') }}
 
 <a href="{{ path('menu.index') }}" class="btn border bg-custom-pink fs-4 p-2 m-2">Retour à la page précédente</a>
+
+<script>
+    const NB_MIN = {{ menu.nbPersonneMinimum }};
+    const PRIX_PERSONNE = {{ menu.prixPersonne }};
+</script>
+
+<script src="{{ asset('js/commande_prix.js') }}"></script>
+
 {% endblock %}
