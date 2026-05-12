@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Commande;
+use App\Entity\Menu;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -71,6 +72,26 @@ class CommandeRepository extends ServiceEntityRepository
         }
 
         return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function findMenuSumAndFilters(Menu $menu, ?\DateTimeInterface $dateStart, ?\DateTimeInterface $dateEnd) : float
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->select('SUM(c.prixMenu) as menuChiffreAffaire')
+            ->andWhere('c.menu = :menu')
+            ->setParameter('menu', $menu);
+
+        if ($dateStart) {
+            $queryBuilder->andWhere('c.dateCommande >= :dateStart')
+            ->setParameter('dateStart', $dateStart);
+        }
+        
+        if ($dateEnd) {
+            $queryBuilder->andWhere('c.dateCommande <= :dateEnd')
+            ->setParameter('dateEnd', $dateEnd);
+        }
+
+        return floatval($queryBuilder->getQuery()->getSingleScalarResult());
     }
 //    /**
 //     * @return Commande[] Returns an array of Commande objects

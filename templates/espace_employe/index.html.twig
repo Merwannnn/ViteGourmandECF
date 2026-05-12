@@ -27,6 +27,15 @@
 {% block body %}
 {% if is_granted('ROLE_ADMIN') %}
 <div class="border bg-custom-pink rounded p-2 mb-4">
+    <div class="titleFontSize fw-semibold text-center">Statistiques</div>
+    <div class="bg-custom-black-pink border rounded p-2">
+        <a href="{{ path('chiffre_affaire_menu.show') }}" class="btn border bg-custom-pink fs-4 p-2 m-2 d-flex justify-content-center">Chiffre d'affaire par menu</a>
+        <a href="{{ path('commandes.stats') }}" class="btn border bg-custom-pink fs-4 p-2 m-2 d-flex justify-content-center">Nombres de commandes par menu</a>
+    </div>
+</div>
+{% endif %}
+{% if is_granted('ROLE_ADMIN') %}
+<div class="border bg-custom-pink rounded p-2 mb-4">
     <div class="titleFontSize fw-semibold text-center">Comptes-employés</div>
     <div class="bg-custom-black-pink border rounded p-2">
         <a href="{{ path('espace_employe.indexComptes') }}" class="btn border bg-custom-pink fs-4 p-2 m-2 d-flex justify-content-center">Gestion des comptes</a>

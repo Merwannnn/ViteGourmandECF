@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chiffre d'affaire par Menu{% endblock %}
+
+{% block header %}
+    <header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+        <div class="container-fluid">
+            <p>Chiffre d'affaire</p>
+        </div>
+    </header>
+{% endblock %}
+
+{% block body %}
+<div class="border bg-custom-pink rounded p-2 mb-4">
+    <div class="fs-1 fw-semibold text-center">Filtre</div>
+    <div class="bg-custom-black-pink border rounded p-2">
+    {{ form_start(form) }}
+        {{ form_row(form.menu) }}
+        {{ form_row(form.dateStart) }}
+        {{ form_row(form.dateEnd) }}
+        <button type="submit" class="btn btn-secondary">Appliquer</button>
+    {{ form_end(form) }}
+    </div>
+</div>
+
+{% if chiffreAffaire is not null %}
+<div class="border bg-custom-pink rounded p-2 mb-4">
+    <div class="fs-1 fw-semibold text-center">{{ menu.title }}</div>
+    <div class="bg-custom-black-pink border rounded p-2">
+        <p class="fs-3">
+            {% if dateStart %}
+                Du {{ dateStart|date('d/m/Y') }}
+            {% endif %}
+
+            {% if dateEnd %}
+                au {{ dateEnd|date('d/m/Y') }}
+            {% endif %}
+        </p>
+
+        <h3 class="text-end">Chiffres d'affaire total : <strong>{{ chiffreAffaire }} €</strong></h3>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\EmployeRegistrationType;
+use App\Form\FiltreChiffreAffaireMenuType;
 use App\Form\FiltreCommandeType;
 use App\Repository\CommandeRepository;
 use App\Repository\UserRepository;
@@ -102,5 +103,38 @@ final class EspaceEmployeController extends AbstractController
         }
 
         return $this->redirectToRoute('espace_employe.indexComptes', [], Response::HTTP_SEE_OTHER);
+    }
+    
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/espace-employe/chiffre-affaire-menu', name: 'chiffre_affaire_menu.show', methods: ['GET', 'POST'])]
+    public function chiffreAffaireMenu(Request $request, CommandeRepository $commandeRepository) : Response 
+    {
+        $chiffreAffaire = null;
+        $menu = null;
+        $dateStart = null;
+        $dateEnd = null;
+
+        $form = $this->createForm(FiltreChiffreAffaireMenuType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $menu = $form->get('menu')->getData();
+            $dateStart = $form->get('dateStart')->getData();
+            $dateEnd = $form->get('dateEnd')->getData();
+
+            if ($dateEnd) {
+                $dateEnd = $dateEnd->setTime(23, 59 ,59);
+            }
+
+            $chiffreAffaire = $commandeRepository->findMenuSumAndFilters($menu, $dateStart, $dateEnd);
+        }
+
+        return $this->render('espace_employe/chiffre_affaire_menu.html.twig', [
+            'form' => $form,
+            'chiffreAffaire' => $chiffreAffaire,
+            'menu' => $menu,
+            'dateStart' => $dateStart,
+            'dateEnd' => $dateEnd
+        ]);
     }
 }
