@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,8 +17,16 @@ class PlatType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('platTitle')
-            ->add('allergene')
+            ->add('platTitle', TextType::class, [
+                'label' => 'Titre du Plat',
+                'required' => true
+            ])
+            ->add('allergene', TextType::class, [
+                'label' => 'Allergenes',
+                'attr' => [
+                    'placeholder' => 'Veuiller indiquer les types d\'allergenes que contient le plat(si il en contient)',
+                ]
+            ])
             ->add('thumbnailFile', FileType::class)
         ;
     }
