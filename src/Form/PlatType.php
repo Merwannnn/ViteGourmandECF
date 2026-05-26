@@ -27,7 +27,9 @@ class PlatType extends AbstractType
                     'placeholder' => 'Veuiller indiquer les types d\'allergenes que contient le plat(si il en contient)',
                 ]
             ])
-            ->add('thumbnailFile', FileType::class)
+            ->add('thumbnailFile', FileType::class, [
+                'label' => 'Photo du plat'
+            ])
         ;
     }
 
