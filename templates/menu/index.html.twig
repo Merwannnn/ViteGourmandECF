@@ -15,6 +15,7 @@
 <div class="border bg-custom-pink rounded p-2 mb-4">
     <div class="fs-1 fw-semibold text-center">Filtre</div>
     <div class="bg-custom-black-pink border rounded p-2">
+    {# permet d'afficher et d'appliquer le formulaire de filtrage des menu via prix, theme, regime ou nombre de personne minimum #}
     {{ form_start(form, { method: 'get', attr: { id: 'form-filters' } }) }}
         {{ form_row(form.prixMax) }}
         {{ form_row(form.prixMin) }}
@@ -26,6 +27,7 @@
     </div>
 </div>
 
+{# permet d'afficher ces bouton uniquement si l'utilisateur est administrateur #}
 {% if is_granted('ROLE_ADMIN') %}
 <div>
     <a href="{{ path('menu.create') }}" class="btn btn-danger fs-4 p-2 m-2">Créer un nouveau menu</a>
@@ -52,6 +54,7 @@
             </div>
         </div>
     </div>
+    {# permet d'afficher ces bouton uniquement si l'utilisateur est administrateur ou employe #}
     {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYE') %}
     <div class="text-end d-flex justify-content-between mb-4">
         <a href="{{ path('menu.edit', {'id': menu.id}) }}" class="btn btn-primary fs-4 p-2 m-2">Modifier</a>
@@ -62,5 +65,6 @@
 <div colspan="8">Aucun menu disponible</div>
 {% endfor %}
 </div>
+{# ce script permet de récuperer le javascript(menu_filtre.js) qui permet d'utiliser le formulaire de filtrage sans rechargement de page #}
 <script src="{{ asset('js/menu_filtre.js') }}"></script>
 {% endblock %}

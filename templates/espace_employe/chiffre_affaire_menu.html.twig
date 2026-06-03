@@ -14,6 +14,7 @@
 <div class="border bg-custom-pink rounded p-2 mb-4">
     <div class="fs-1 fw-semibold text-center">Filtre</div>
     <div class="bg-custom-black-pink border rounded p-2">
+    {# permet d'afficher et d'appliquer le formulaire de filtrage du chiffre d'affaire via le menu ou par date  #}
     {{ form_start(form) }}
         {{ form_row(form.menu) }}
         {{ form_row(form.dateStart) }}
@@ -23,15 +24,18 @@
     </div>
 </div>
 
+{# permet d'afficher le chiffre d'affaire total par menu #}
 {% if chiffreAffaire is not null %}
 <div class="border bg-custom-pink rounded p-2 mb-4">
     <div class="fs-1 fw-semibold text-center">{{ menu.title }}</div>
     <div class="bg-custom-black-pink border rounded p-2">
         <p class="fs-3">
+            {# permet d'afficher la date de début pour le chiffre d'affaire si on en a indiqué une dans le formulaire de filtrage #}
             {% if dateStart %}
                 Du {{ dateStart|date('d/m/Y') }}
             {% endif %}
 
+            {# permet d'afficher la date de fin pour le chiffre d'affaire si on en a indiqué une dans le formulaire de filtrage #}
             {% if dateEnd %}
                 au {{ dateEnd|date('d/m/Y') }}
             {% endif %}

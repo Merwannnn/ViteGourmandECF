@@ -14,11 +14,14 @@
 <div class="border bg-custom-pink rounded p-2 mb-4">
     <div class="fs-1 fw-semibold text-center">Statistiques des commandes par menu</div>
     <div class="bg-custom-black-pink border rounded p-2">
+    {# permet de récupérer le cdn de chart.js pour pouvoir créer et afficher le graphique qui gère le nombre de commande par menu #}
         <canvas id="chart" width="400" height="200"></canvas>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
         <script>
+            {# permet de créer des variable qui contiennent le nom des menu et le nombre de commande par menu recu par le controller(CommandeStatsController)
+            qui récupère les données depuis la collection dans la base de donées MongoDB associé #}
             const menusTitle = {{ menusTitle|json_encode|raw }};
             const nbCommandes = {{ nbCommandes|json_encode|raw }};
 

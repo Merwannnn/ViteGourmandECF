@@ -14,6 +14,7 @@
 <div class="border bg-custom-pink rounded p-2 mb-4">
     <div class="fs-1 fw-semibold text-center">Filtre</div>
     <div class="bg-custom-black-pink border rounded p-2">
+    {# permet d'afficher et d'appliquer le formulaire de filtrage des commande via nom du client ou statut de la commande #}
     {{ form_start(form, { method: 'get' }) }}
         {{ form_row(form.username) }}
         {{ form_row(form.statut) }}
@@ -22,6 +23,7 @@
     </div>
 </div>
 
+{# permet de récuperer et d'afficher chaque commande client pour que les employe et/ou l'administrateur puissent les traité #}
 {% for commande in commandes %}
     {% if is_granted('ROLE_ADMIN') %}
     <div class="border bg-custom-pink rounded p-2 mb-1">

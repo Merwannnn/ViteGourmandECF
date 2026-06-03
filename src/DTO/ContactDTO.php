@@ -4,6 +4,7 @@ namespace App\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+// cette class(DTO) permet de correctement valider et transmettre les données reçu du formulaire(ContactType)
 class ContactDTO
 {
 

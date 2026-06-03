@@ -33,6 +33,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
+    // cette fonction permet d'uniquement récuperer les utilisateur qui possedent le role "ROLE_EMPLOYE"
+    // pour permettre a l'administrateur de gérer les employe
     public function findEmploye() : array
     {
         return $this->createQueryBuilder('u')

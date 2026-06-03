@@ -15,21 +15,25 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class HoraireController extends AbstractController
 {
     #[Route('/horaire', name: 'horaire.index')]
+    // cette fonction permet d'afficher tout les horaire dans le template (horaire/index.html.twig)
     public function index(HoraireRepository $horaireRepository): Response
     {
         return $this->render('horaire/index.html.twig', [
+            // permet de récuperer et d'afficher tout les horaire
             'horairesIndex' => $horaireRepository->findAll(),
         ]);
     }
 
     #[IsGranted('ROLE_EMPLOYE')]
     #[Route('/horaire/create', name: 'horaire.create', methods: ['GET', 'POST'])]
+    // cette fonction permet de créer un horaire
     public function new(Request $request, EntityManagerInterface $entityManager) : Response 
     {
         $horaire = new Horaire();
         $form = $this->createForm(HoraireType::class, $horaire);
         $form->handleRequest($request);
 
+        // permet de vérifier si le formulaire est corretement soumis et si il est valide avant d'enregister les données en base
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($horaire);
             $entityManager->flush();
@@ -45,11 +49,13 @@ final class HoraireController extends AbstractController
 
     #[IsGranted('ROLE_EMPLOYE')]
     #[Route('/horaire/{id}/edit', name: 'horaire.edit', methods: ['GET', 'POST'])]
+    // cette fonction permet de modifier un horaire
     public function edit(Request $request, Horaire $horaire, EntityManagerInterface $entityManager) : Response 
     {
         $form = $this->createForm(HoraireType::class, $horaire);
         $form->handleRequest($request);
 
+        // permet de vérifier si le formulaire est corretement soumis et si il est valide avant d'enregister les données en base
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 

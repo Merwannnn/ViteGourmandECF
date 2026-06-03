@@ -34,6 +34,8 @@
 
             </div>
             <div class="text-start">
+            {# permet d'afficher le bouton pour laisser un avis sur une commande si la commande est terminée et si l'utilisateur connecté 
+            est celui qui a passée commande et n'a pas déja laisser un avis #}
             {% if commande.statut == 'Terminée' %}
                 {% if not commande.avis|filter(a => a.user == app.user)|length %}
                     <a href="{{ path('avis.create', {'id': commande.id}) }}" class="btn bg-custom-pink shadow-inner-drop rounded-2 fs-2">Laisser un avis</a>
@@ -42,6 +44,7 @@
                 {% endif %}
             {% endif %}
             </div>
+            {# permet d'autoriser la modification d'une commande par un client uniquement si le statut de la commande est "Commande passée" #}
             {% if commande.statut == 'Commande passée' %}
                 <div class="d-flex justify-content-end">
                     <a href="{{ path('commande.edit', {'id': commande.id}) }}" class="btn bg-custom-pink shadow-inner-drop rounded-2 fs-2 me-2">Modifier</a>

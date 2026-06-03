@@ -3,7 +3,7 @@
 namespace App\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-
+// permet de cibler la collection indiqué dans la base de données MongoDB associé
 #[ODM\Document(collection: "stats_menu")]
 class CommandeDocument
 {

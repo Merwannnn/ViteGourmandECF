@@ -18,6 +18,8 @@ class CommandeRepository extends ServiceEntityRepository
         parent::__construct($registry, Commande::class);
     }
 
+    // cette fonction permet de récuperer toute les commande client avec les user, menu et avis pour éviter le probleme n+1
+    // cette fonction n'est plus utiliser
     public function findAllWithUserAndMenu() : array
     {
         return $this->createQueryBuilder('c')
@@ -33,6 +35,7 @@ class CommandeRepository extends ServiceEntityRepository
         
     }
 
+    // cette fonction permet de récuperer uniquement les commande de l'utilisateur connecter avec l'user, les menu, avis et historique des status pour éviter le probleme n+1
     public function findMyCommand(User $user) : array
     {
         return $this->createQueryBuilder('c')
@@ -42,6 +45,8 @@ class CommandeRepository extends ServiceEntityRepository
             ->addSelect('m')
             ->leftJoin('c.avis', 'a')
             ->addSelect('a')
+            ->leftJoin('c.statutHistorique', 's')
+            ->addSelect('s')
             ->where('c.user = :user')
             ->setParameter('user', $user)
             ->orderBy('c.dateCommande', 'DESC')
@@ -50,6 +55,8 @@ class CommandeRepository extends ServiceEntityRepository
         
     }
 
+    // cette fonction permet de récuperer toute les commande client avec les user, menu et avis pour éviter le probleme n+1
+    // et également d'utiliser un systeme de filrations
     public function findAllWithUserAndMenuAndFilters(?string $userName = null, ?string $statut = null) : array 
     {
         $queryBuilder = $this->createQueryBuilder('c')
@@ -61,11 +68,13 @@ class CommandeRepository extends ServiceEntityRepository
             ->addSelect('a')
             ->orderBy('c.dateCommande', 'DESC');
 
+        // permet de filtrer les commande par le nom d'utilisateur
         if ($userName) {
             $queryBuilder->andWhere('u.name LIKE :userName')
                 ->setParameter('userName', '%' . $userName . '%');
         }
 
+        // permet de filtrer les commande par leur statut d'avancement
         if ($statut) {
             $queryBuilder->andWhere('c.statut = :statut')
                 ->setParameter('statut', $statut);
@@ -74,6 +83,7 @@ class CommandeRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
+    // cette fonction permet de calculer le chiffre d'affaire par menu et également de le filtrer par date
     public function findMenuSumAndFilters(Menu $menu, ?\DateTimeInterface $dateStart, ?\DateTimeInterface $dateEnd) : float
     {
         $queryBuilder = $this->createQueryBuilder('c')
@@ -81,11 +91,13 @@ class CommandeRepository extends ServiceEntityRepository
             ->andWhere('c.menu = :menu')
             ->setParameter('menu', $menu);
 
+        // permet de filtrer le chiffre d'affaire avec une date début
         if ($dateStart) {
             $queryBuilder->andWhere('c.dateCommande >= :dateStart')
             ->setParameter('dateStart', $dateStart);
         }
         
+        // permet de filtrer le chiffre d'affaire avec une date de fin
         if ($dateEnd) {
             $queryBuilder->andWhere('c.dateCommande <= :dateEnd')
             ->setParameter('dateEnd', $dateEnd);

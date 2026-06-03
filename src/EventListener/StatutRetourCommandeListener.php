@@ -16,15 +16,21 @@ final class StatutRetourCommandeListener
 {
     private MailerInterface $mailer;
 
+    // permet uniquement d'appeler la MailerInterface pour l'utiliser dans le listener par la suite
     public function __construct(MailerInterface $mailer) {
         $this->mailer = $mailer;
     }
 
+    // cette fonction permet d'utiliser l'évènement doctrine postUpdate pour envoyer un email a un client
+    // uniquement quand sa commande atteint un certain statut
     public function postUpdate(Commande $commande, PostUpdateEventArgs $event): void
     {
+        // permet d'envoyer le mail uniquement si la commande atteint le statut "En attente du retour de matériel"
         if ($commande->getStatut() === 'En attente du retour de matériel') {
+            // permet de déterminer a quel utilisateur appartient la commande pour pouvoir lui envoyer le mail
             $user = $commande->getUser();
 
+            // permet de s'assurer que l'entité dans la variable $user est bien un utilisateur avant d'envoyer le mail
             if ($user instanceof User) {
                 $mail = (new TemplatedEmail())
                     ->to($user->getEmail())

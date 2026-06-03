@@ -11,12 +11,16 @@
 {% endblock %}
 
 {% block body %}
+{# permet uniquement d'afficher le message de promotion si la promotion est appliqué #}
 <div id="message_promo" class"text-success"></div>
 
 {{ include('menu/_form.html.twig') }}
 
 <a href="{{ path('menu.index') }}" class="btn border bg-custom-pink fs-4 p-2 m-2">Retour à la page précédente</a>
 
+{# ce script permet de créer deux variable qui contiennent le nombre de personne minimum requis pour le menu qui est commander 
+et le prix par personne du menu qui est commander pour les passer a notre javascript(commande_prix.js) 
+qui les utilisera pour le calcul et l'affichage sans rechargement du prix final de la commande #}
 <script>
     const NB_MIN = {{ menu.nbPersonneMinimum }};
     const PRIX_PERSONNE = {{ menu.prixPersonne }};
