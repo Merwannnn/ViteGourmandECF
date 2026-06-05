@@ -31,4 +31,7 @@
 {% else %}
 <div colspan="8">Aucun avis disponible</div>
 {% endfor %}
+<nav class="pagination-wrapper d-flex justify-content-end" aria-label="Pagination">
+    {{ knp_pagination_render(avis) }}
+</nav>
 {% endblock %}

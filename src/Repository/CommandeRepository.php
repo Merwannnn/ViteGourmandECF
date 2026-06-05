@@ -37,7 +37,7 @@ class CommandeRepository extends ServiceEntityRepository
     }
 
     // cette fonction permet de récuperer uniquement les commande de l'utilisateur connecter avec l'user, les menu, avis et historique des status pour éviter le probleme n+1
-    public function findMyCommand(User $user) : array
+    public function findMyCommand(User $user) : QueryBuilder
     {
         return $this->createQueryBuilder('c')
             ->leftJoin('c.user', 'u')
@@ -50,10 +50,7 @@ class CommandeRepository extends ServiceEntityRepository
             ->addSelect('s')
             ->where('c.user = :user')
             ->setParameter('user', $user)
-            ->orderBy('c.dateCommande', 'DESC')
-            ->getQuery()
-            ->getResult();
-        
+            ->orderBy('c.dateCommande', 'DESC');
     }
 
     // cette fonction permet de récuperer toute les commande client avec les user, menu et avis pour éviter le probleme n+1

@@ -7,6 +7,7 @@ use App\Form\UserType;
 use App\Repository\CommandeRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,12 +31,23 @@ final class EspaceUtilisateurController extends AbstractController
     #[IsGranted('ROLE_USER')]
     #[Route('/mon-espace/mes-commandes', name: 'espace.show_commandes')]
     // cette fonction permet de lister toute les commandes d'un utilisateur pour qu'il puissent les consulté ensuite
-    public function showAllCommandes(CommandeRepository $repository): Response
+    public function showAllCommandes(CommandeRepository $repository, Request $request, PaginatorInterface $paginator): Response
     {
+        $page = $request->query->getInt('page', 1);
+
         // permet de récuperer toute les commandes de l'utilisateur actuellement connecter via un filtre dans le repository
-        $commandes = $repository->findMyCommand($this->getUser());
+        $queryBuilder = $repository->findMyCommand($this->getUser());
+
+        // permet de paginer les résultat du queryBuilder associé(utilise le bundle KnpPaginatorBundle)
+        // les paramètre(queryBuilder, page et 5) correspondent a notre queryBuilder au numéro de page en cours et a la limite de résultat par page
+        $pagination = $paginator->paginate(
+            $queryBuilder,
+            $page,
+            5
+        );
+
         return $this->render('espace_utilisateur/show_commandes.html.twig', [
-            'commandes' => $commandes,
+            'commandes' => $pagination,
         ]);
         
     }

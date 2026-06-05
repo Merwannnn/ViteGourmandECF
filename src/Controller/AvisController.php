@@ -8,6 +8,7 @@ use App\Form\AvisType;
 use App\Form\EmployeAvisType;
 use App\Repository\AvisRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,11 +20,23 @@ final class AvisController extends AbstractController
     #[IsGranted('ROLE_EMPLOYE')]
     #[Route('/avis', name: 'avis.index', methods: ['GET'])]
     // cette fonction permet de lister tout les avis client
-    public function index(AvisRepository $avisRepository) : Response
+    public function index(AvisRepository $avisRepository, Request $request, PaginatorInterface $paginator) : Response
     {
+        $page = $request->query->getInt('page', 1);
+
+        // permet de récuperer toute les avis client
+        $queryBuilder = $avisRepository->findAvisSoumis();
+
+        // permet de paginer les résultat du queryBuilder associé(utilise le bundle KnpPaginatorBundle)
+        // les paramètre(queryBuilder, page et 40) correspondent a notre queryBuilder au numéro de page en cours et a la limite de résultat par page
+        $pagination = $paginator->paginate(
+            $queryBuilder,
+            $page,
+            40
+        );
         // permet de récupérer et d'afficher tout les avis dans le template
         return $this->render('avis/index.html.twig', [
-            'avis' => $avisRepository->findAll()
+            'avis' => $pagination
         ]);
     }
 
