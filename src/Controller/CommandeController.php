@@ -9,6 +9,7 @@ use App\Form\FiltreCommandeType;
 use App\Repository\CommandeRepository;
 use App\Repository\MenuRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -24,10 +25,11 @@ final class CommandeController extends AbstractController
     #[IsGranted('ROLE_EMPLOYE')]
     #[Route(name: 'commande.index', methods: ['GET'])]
     // cette fonction permet de lister et/ou filtrer toute les commande client et n'est accessible qu'au role "ROLE_EMPLOYE"
-    public function index(CommandeRepository $commandeRepository, Request $request): Response
+    public function index(CommandeRepository $commandeRepository, Request $request, PaginatorInterface $paginator): Response
     {
         $userName = null;
         $statut = null;
+        $page = $request->query->getInt('page', 1);
 
         $form = $this->createForm(FiltreCommandeType::class);
         $form->handleRequest($request);
@@ -40,10 +42,21 @@ final class CommandeController extends AbstractController
             $userName = $data['username'] ?? null;
             $statut = $data['statut'] ?? null;
         }
+        
+        $queryBuilder = $commandeRepository->findAllWithUserAndMenuAndFilters($userName, $statut);
+        
+        // permet de paginer les résultat du queryBuilder associé(utilise le bundle KnpPaginatorBundle)
+        // les paramètre(queryBuilder, page et 10) correspondent a notre queryBuilder au numéro de page en cours et a la limite de résultat par page
+        $pagination = $paginator->paginate(
+            $queryBuilder,
+            $page,
+            10
+        );
 
         return $this->render('commande/index.html.twig', [
-            // permet de récuperer les données des variables utiliser pour la filtration(userName, statut) du formulaire pour les passer au filtre dans le repository
-            'commandes' => $commandeRepository->findAllWithUserAndMenuAndFilters($userName, $statut),
+            // permet de récupérer la variable qui permet de récuperer les données des variables utiliser pour la filtration 
+            // et également de paginer les résultat pour les afficher
+            'commandes' => $pagination,
             'form' => $form
         ]);
     }

@@ -6,6 +6,7 @@ use App\Entity\Commande;
 use App\Entity\Menu;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -57,7 +58,7 @@ class CommandeRepository extends ServiceEntityRepository
 
     // cette fonction permet de récuperer toute les commande client avec les user, menu et avis pour éviter le probleme n+1
     // et également d'utiliser un systeme de filrations
-    public function findAllWithUserAndMenuAndFilters(?string $userName = null, ?string $statut = null) : array 
+    public function findAllWithUserAndMenuAndFilters(?string $userName = null, ?string $statut = null) : QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('c')
             ->leftJoin('c.user', 'u')
@@ -80,7 +81,7 @@ class CommandeRepository extends ServiceEntityRepository
                 ->setParameter('statut', $statut);
         }
 
-        return $queryBuilder->getQuery()->getResult();
+        return $queryBuilder;
     }
 
     // cette fonction permet de calculer le chiffre d'affaire par menu et également de le filtrer par date

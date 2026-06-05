@@ -56,4 +56,7 @@
 {% else %}
 <div colspan="8">Aucune commande disponible</div>
 {% endfor %}
+<nav class="pagination-wrapper d-flex justify-content-end" aria-label="Pagination">
+    {{ knp_pagination_render(commandes) }}
+</nav>
 {% endblock %}
