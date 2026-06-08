@@ -23,27 +23,29 @@
                 <div class="collapse navbar-collapse" id="menu">
                     <ul class="navbar-nav fs-3">
                             <li class="nav-item">
-                                <a class="nav-link {{ app.current_route == 'menu.index' ? 'active' : '' }}" href="/menu">Menus</a>
+                                <a class="nav-link {{ app.current_route == 'menu.index' ? 'active' : '' }}" href="{{ path('menu.index') }}">Menus</a>
                             </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ app.current_route == 'contact' ? 'active' : '' }}" href="/contact">Contact</a>
+                            <a class="nav-link {{ app.current_route == 'contact' ? 'active' : '' }}" href="{{ path('contact') }}">Contact</a>
                         </li>
-                        {% if is_granted('ROLE_EMPLOYE') or is_granted('ROLE_ADMIN') %} 
-                        <li class="nav-item">
-                            <a class="nav-link {{ app.current_route == 'espace_employe.index' ? 'active' : '' }}" href="/espace-employe">Mon Espace</a>
-                        </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link {{ app.current_route == 'espace.index' ? 'active' : '' }}" href="/mon-espace">Mon Espace</a>
-                        </li>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            {% if is_granted('ROLE_EMPLOYE') or is_granted('ROLE_ADMIN') %} 
+                            <li class="nav-item">
+                                <a class="nav-link {{ app.current_route == 'espace_employe.index' ? 'active' : '' }}" href="{{ path('espace_employe.index') }}">Mon Espace</a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link {{ app.current_route == 'espace.index' ? 'active' : '' }}" href="{{ path('espace.index') }}">Mon Espace</a>
+                            </li>
+                            {% endif %}
                         {% endif %}
-                        {% if is_granted('ROLE_USER') or is_granted('ROLE_EMPLOYE') or is_granted('ROLE_ADMIN') %}                    
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}                    
                         <li class="nav-item">
-                            <a class="nav-link {{ app.current_route == 'app_logout' ? 'active' : '' }}" href="/logout">Déconnexion</a>
+                            <a class="nav-link {{ app.current_route == 'app_logout' ? 'active' : '' }}" href="{{ path('app_logout') }}">Déconnexion</a>
                         </li>
                         {% else %}                    
                         <li class="nav-item">
-                            <a class="nav-link {{ app.current_route == 'app_login' ? 'active' : '' }}" href="/login">Connexion</a>
+                            <a class="nav-link {{ app.current_route == 'app_login' ? 'active' : '' }}" href="{{ path('app_login') }}">Connexion</a>
                         </li>
                         {% endif %}
                     </ul>
@@ -77,7 +79,8 @@
             {% endfor %}
             <p class="d-flex align-items-center justify-content-center">
                 <a href="{{ path('conditions_generales') }}" class="fs-6 p-2 m-2 text-decoration-none link-light">Conditions générale de vente</a> |
-                <a href="{{ path('mentions_legal') }}" class="fs-6 p-2 m-2 text-decoration-none link-light">Mention légales</a>
+                <a href="{{ path('mentions_legal') }}" class="fs-6 p-2 m-2 text-decoration-none link-light">Mention légales</a> |
+                <a href="{{ path('app.plan_site') }}" class="fs-6 p-2 m-2 text-decoration-none link-light">Plan du site</a>
             </p>
             </div>
         </footer>
