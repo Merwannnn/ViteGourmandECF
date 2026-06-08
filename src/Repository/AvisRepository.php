@@ -25,6 +25,17 @@ class AvisRepository extends ServiceEntityRepository
             ->andWhere('a.statut LIKE :statuts')
             ->setParameter('statuts', '%Soumis%');
     }
+    
+    // cette fonction permet uniquement de récupérer les avis client via le statut de l'avis
+    // ce qui permet d'afficher dans l'accueil uniquement les avis validé
+    public function findAvisValide() : array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.statut LIKE :statuts')
+            ->setParameter('statuts', '%Validé%')
+            ->getQuery()
+            ->getResult();
+    }
 
 //    /**
 //     * @return Avis[] Returns an array of Avis objects

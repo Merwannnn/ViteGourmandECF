@@ -15,7 +15,7 @@ final class HomeController extends AbstractController
     {
         return $this->render('home/index.html.twig', [
             // permet de récuperer et afficher les avis client
-            'avis' => $repository->findAll(),
+            'avis' => $repository->findAvisValide(),
         ]);
     }
 }
