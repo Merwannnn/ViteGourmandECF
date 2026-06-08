@@ -21,6 +21,11 @@ final class EspaceUtilisateurController extends AbstractController
     // cette fonction permet d'afficher l'espace utilisateur
     public function index(): Response
     {
+        // permet d'empécher les utilisateur ayant un certain role d'accéder a cette page en les redirigant 
+        if ($this->isGranted("ROLE_EMPLOYE") || $this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+        }
+
         // permet de récuperer l'utilisateur actuellement connecter pour pouvoir afficher ses information dans son espace ensuite
         $user = $this->getUser();
         return $this->render('espace_utilisateur/index.html.twig', [
@@ -33,6 +38,11 @@ final class EspaceUtilisateurController extends AbstractController
     // cette fonction permet de lister toute les commandes d'un utilisateur pour qu'il puissent les consulté ensuite
     public function showAllCommandes(CommandeRepository $repository, Request $request, PaginatorInterface $paginator): Response
     {
+        // permet d'empécher les utilisateur ayant un certain role d'accéder a cette page en les redirigant 
+        if ($this->isGranted("ROLE_EMPLOYE") || $this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+        }
+
         $page = $request->query->getInt('page', 1);
 
         // permet de récuperer toute les commandes de l'utilisateur actuellement connecter via un filtre dans le repository
@@ -57,6 +67,11 @@ final class EspaceUtilisateurController extends AbstractController
     // cette fonction permet a l'utilisateur de modifier ses informations personelle
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager) : Response
     {
+        // permet d'empécher les utilisateur ayant un certain role d'accéder a cette page en les redirigant 
+        if ($this->isGranted("ROLE_EMPLOYE") || $this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+        }
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         

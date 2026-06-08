@@ -66,6 +66,11 @@ final class CommandeController extends AbstractController
     // cette fonction permet de créer une commande client
     public function create(Request $request, EntityManagerInterface $entityManager, MenuRepository $repository, int $id, Security $security, CommandeRepository $commandeRepository): Response
     {
+        // permet d'empécher les utilisateur ayant un certain role d'accéder a cette page en les redirigant 
+        if ($this->isGranted("ROLE_EMPLOYE") || $this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('menu.index', [], Response::HTTP_SEE_OTHER);
+        }
+
         $menu = $repository->find($id);
         // permet de récuperer l'utilisateur connecté pour des raisons de sécurité
         $user = $security->getUser();
