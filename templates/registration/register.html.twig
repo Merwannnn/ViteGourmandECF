@@ -2,13 +2,19 @@
 
 {% block title %}Créer un compte{% endblock %}
 
+{% block header %}
+    <header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+        <div class="container-fluid">
+            <p>Créer un compte</p>
+        </div>
+    </header>
+{% endblock %}
+
 {% block body %}
 <div class="flex-fill align-items-center justify-content-center">
     {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
-
-    <h1>Créer un compte</h1>
 
     {{ form_errors(registrationForm) }}
 
