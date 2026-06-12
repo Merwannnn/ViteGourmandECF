@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Plan du site{% endblock %}
+
+{% block header %}
+    <header class="mt-auto top-0 start-0 end-0 text-center py-2 ms-4 div-pres">
+        <div class="container-fluid">
+            <p>Plan du Site</p>
+        </div>
+    </header>
+{% endblock %}
+
+{% block body %}
+<div class="border bg-custom-pink rounded p-2 mb-4">
+    <div class="fs-1 fw-semibold text-center">Générale</div>
+	<div class="bg-custom-black-pink border rounded p-2">
+        <ul>
+            <li>
+                <a href="{{ path('contact') }}" class="fs-3 me-2 text-light plan-site-link">Contact</a>
+            </li>
+            <li>
+                <a href="/conditions-generales-de-vente" class="fs-3 me-2 text-light plan-site-link">Conditions générales de ventes</a>
+            </li>
+            <li>
+                <a href="/mentions-legales" class="fs-3 me-2 text-light plan-site-link">Mentions légales</a>
+            </li>
+            <li>
+                <a href="{{ path('app.plan_site') }}" class="fs-3 me-2 text-light plan-site-link">Plan du site</a>
+            </li>
+            <li>
+                <a href="{{ path('app_login') }}" class="fs-3 me-2 text-light plan-site-link">Se connecter au site</a>
+            </li>
+        </ul>
+    </div>
+    <div class="fs-1 fw-semibold text-center">Menus</div>
+	<div class="bg-custom-black-pink border rounded p-2">
+        <ul>
+            <li>
+            <a href="{{ path('menu.index') }}" class="fs-2 me-2 text-light plan-site-link">Tout les menus</a>
+            </li>
+        {# permet de récupérer tout les liens vers les menus éxistant #}
+        {% for menu in menus %}
+            <li>
+                <a href="{{ path('menu.show', {'id': menu.id}) }}" class="fs-3 me-2 text-light plan-site-link">{{ menu.title }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+	</div>
+</div>
+{% endblock %}
