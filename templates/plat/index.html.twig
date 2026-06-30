@@ -20,8 +20,8 @@
         <div class="fs-1 fw-semibold">{{ plat.platTitle }}</div>
         <div class="bg-custom-black-pink border rounded p-2">
             <div>
-                <span class="fs-3 border bg-custom-pink rounded p-1">Allergene: {{ plat.allergene }}</span>
-            </div>
+                <p class="fs-3 border bg-custom-pink rounded p-1">Allergene: {{ plat.allergene }}</p>
+            </div><br>
             {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYE') %}
             <div class="d-flex align-items-center justify-content-end">
                 <span><a href="{{ path('plat.edit', {'id': plat.id}) }}" class="btn bg-custom-pink shadow-inner-drop rounded-2 fs-2 me-2">Modifier</a></span>
