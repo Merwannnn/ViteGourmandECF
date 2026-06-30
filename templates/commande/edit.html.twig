@@ -11,7 +11,8 @@
 {% endblock %}
 
 {% block body %}
-{{ include('commande/_form.html.twig') }}
+<div class="border bg-custom-pink fs-1 p-2 m-2 fw-semibold rounded text-center">{{ commande.menu.title }} | {{ commande.numeroCommande }}</div><br>
+{{ include('commande/_form.html.twig', { button_label: 'Valider' }) }}
 
 {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYE') %}
 	<a href="{{ path('commande.index') }}" class="btn border bg-custom-pink fs-4 p-2 m-2">Retour à la page précédente</a>
