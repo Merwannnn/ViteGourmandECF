@@ -33,13 +33,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
-    // cette fonction permet d'uniquement récuperer les utilisateur qui possedent le role "ROLE_EMPLOYE"
+    // cette fonction permet de récuperer les utilisateur qui possedent le role "ROLE_EMPLOYE"
+    // et d'exclure l'administrateur de la requete(car il possède aussi le role "ROLE_EMPLOYE")
     // pour permettre a l'administrateur de gérer les employe
     public function findEmploye() : array
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.roles LIKE :role')
-            ->setParameter('role', '%"ROLE_EMPLOYE"%')
+            ->andWhere('u.roles LIKE :employe')
+            ->andWhere('u.roles NOT LIKE :admin')
+            ->setParameter('employe', '%"ROLE_EMPLOYE"%')
+            ->setParameter('admin', '%"ROLE_ADMIN"%')
             ->getQuery()
             ->getResult();
     }
