@@ -12,16 +12,19 @@
 
 {% block body %}
 <div class="container-fluid">
-    <div id="carouselAccueil" class="carousel slide py-4">
+    <div id="carouselAccueil" class="carousel slide py-4" data-bs-ride="carousel" data-bs-interval="4000">
         <div class="carousel-inner gap-3">
             <div class="carousel-item active text-center">
-                <img src="{{ asset('images/accueil/image_covoit_1.jpg') }}" class="img-fluid rounded"/>
+                <img src="{{ asset('images/accueil/lapleiade-restaurant-5238976_1280.jpg') }}" class="img-fluid rounded"/>
             </div>
             <div class="carousel-item text-center">
-                <img src="{{ asset('images/accueil/image_covoit_2.jpg') }}" class="img-fluid rounded"/>
+                <img src="{{ asset('images/accueil/vitesca-big-kitchen-2765065_1280.jpg') }}" class="img-fluid rounded"/>
             </div>
             <div class="carousel-item text-center">
-                <img src="{{ asset('images/accueil/image_voiture_éléctrique_1.jpg') }}" class="img-fluid rounded"/>
+                <img src="{{ asset('images/accueil/jhfl-chunks-2854126_1280.jpg') }}" class="img-fluid rounded"/>
+            </div>
+            <div class="carousel-item text-center">
+                <img src="{{ asset('images/accueil/caniceus-meal-8388203_1280.jpg') }}" class="img-fluid rounded"/>
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselAccueil" data-bs-slide="prev">
@@ -34,19 +37,13 @@
         </button>
     </div>
     <div class="container pb-4">
-        <p class="fs-3 fw-semibold text-center">Nos employé font tout pour que votre expérience de nos services soit irréprochable Pellentesque in enim egestas, dictum sem nec, sodales velit. 
-        Morbi commodo ornare sapien. Maecenas faucibus in tellus vel consequat. Duis egestas eleifend eros, nec sagittis justo. 
-        Curabitur in ex at ipsum egestas semper. 
-        Quisque ultrices interdum arcu nec fermentum. Quisque ullamcorper libero semper velit faucibus vehicula. 
-        Morbi vel felis erat.
-        Pellentesque in enim egestas, dictum sem nec, sodales velit. Morbi commodo ornare sapien. Maecenas faucibus in tellus vel consequat.
-        Duis egestas eleifend eros, nec sagittis justo.
-        Morbi commodo ornare sapien. Maecenas faucibus in tellus vel consequat. Duis egestas eleifend eros, nec sagittis justo. 
-        Curabitur in ex at ipsum egestas semper. 
-        Quisque ultrices interdum arcu nec fermentum. Quisque ullamcorper libero semper velit faucibus vehicula. 
-        Morbi vel felis erat.
-        Pellentesque in enim egestas, dictum sem nec, sodales velit. Morbi commodo ornare sapien. Maecenas faucibus in tellus vel consequat.
-        Duis egestas eleifend eros, nec sagittis justo.
+        <p class="fs-3 fw-semibold text-center">
+            Vite & Gourmand est un traiteur bordelais qui existe depuis 25 ans, fondé par Julie et José Vite & Gourmand propose différents menus pour tout type d'évènement de plus les menus sont évolutif ce qui permet de profiter de différentes saveur si vous commander un même menu sur différentes périodes. 
+            Nos employé sont formé pour tout faire pour que votre expérience de nos services soit irréprochable et vous accompagne tout du long de votre commande si vous souhaité des précisions, et même avant si vous souhaiter nous contacter via le formulaire pour demander des renseignements sur nos différents menus.
+            Nous vous souhaitons la meilleur expérience possible chez Vite & Gourmand,
+        </p>    
+        <p class="fs-3 fw-semibold text-center">
+            Bonne commande !!
         </p>
     </div>
     <div class="container-fluid text-center py-2 rounded div-middle-bar">
@@ -59,7 +56,7 @@
                 <div class="carousel-item {% if loop.first %}active{% endif %}" style="height:400px;">
                     <div class="d-flex align-items-center justify-content-center h-100">
                         <div class="card w-50 text-center">
-                            <div class="card-header">Note: {{ avi.note }}</div>
+                            <div class="card-header bg-custom-pink">Note: {{ avi.note }}</div>
                             <div class="card-body">
                                 <div class="card-text">{{ avi.commentaire }}</div>
                             </div>

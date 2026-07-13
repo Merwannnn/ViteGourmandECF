@@ -18,7 +18,7 @@
             <ul class="flex-wrap border bg-light rounded d-flex justify-content-center list-unstyled p-1">
                 {% for plat in menu.plat %}
                     <li class="px-3 mb-4 d-flex flex-column align-items-center">
-                        <span class="text-custom-pink fs-1 fst-italic fw-bold">° {{ plat.platTitle }}</span>
+                        <span class="text-custom-pink fs-1 fst-italic fw-bold text-center">° {{ plat.platTitle }}</span>
                         <img src="{{ vich_uploader_asset(plat, 'thumbnailFile') }}" class="img-fluid thumbnailFile-img rounded">
                     </li>
                 {% endfor %}
@@ -27,7 +27,7 @@
                 <span class="fs-3 border bg-custom-pink rounded p-1">Nombre de personne minimum: {{ menu.nbPersonneMinimum }}</span><br><br>
                 <span class="fs-3 border bg-custom-pink rounded p-1">Thême du menu: {{ menu.theme.themeTitle }}</span><br><br>
                 <span class="fs-3 border bg-custom-pink rounded p-1">Prix: {{ menu.prixPersonne }}€</span>
-                <span class="fs-3 border bg-custom-pink rounded p-1">Régime: {{ menu.regime }}</span>
+                <span class="fs-3 border bg-custom-pink rounded p-1">Régime: {{ menu.regime }}</span><br><br>
                 <span class="fs-3 border bg-custom-pink rounded p-1">Quantité restante: {{ menu.quantiteRestante }}</span><br><br>
             </div>
             {% for plat in menu.plat %}
@@ -36,7 +36,8 @@
             </div>
             {% endfor %}
             <div>
-                <p class="fs-2 rounded p-1">Conditions: {{ menu.conditions }}</p><br><br>
+                <p class="fs-2 rounded p-1">Conditions: {{ menu.conditions }}</p><br>
+                <p class="fs-2 rounded p-1 text-warning">Le prix de la livraison est de 5.99€ (facturation de 5 euros si la livraison n’est pas dans la ville de bordeaux et majoration de 59 centimes par kilomètre parcouru)</p>
             </div>
             {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYE') %}  
 
