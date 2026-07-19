@@ -35,6 +35,7 @@ WORKDIR /var/www/html
 COPY . .
 
 ENV APP_ENV=prod
+ENV APP_DEBUG=0
 
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
@@ -42,4 +43,4 @@ RUN chown -R www-data:www-data /var/www/html
 
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+CMD ["bash", "-c", "echo APP_ENV=$APP_ENV && echo APP_DEBUG=$APP_DEBUG && apache2-foreground"]
