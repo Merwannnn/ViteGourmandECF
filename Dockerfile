@@ -18,8 +18,9 @@ RUN apt-get update && apt-get install -y \
         pdo_mysql \
         zip \
         gd \
-    && pecl install channel://pecl.php.net/mongodb-1.21.3 \
+    && pecl install mongodb-1.21.4 \
     && docker-php-ext-enable mongodb \
+    && php -r "echo 'MongoDB extension: '.phpversion('mongodb').PHP_EOL;" \
     && rm -rf /var/lib/apt/lists/*
 
 RUN a2enmod rewrite
