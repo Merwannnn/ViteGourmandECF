@@ -29,9 +29,11 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader
+ENV APP_ENV=prod
 
-RUN php bin/console cache:clear --env=prod
+RUN composer install --no-dev --optimize-autoloader --no-scripts
+
+RUN php bin/console cache:warmup --env=prod
 
 RUN chown -R www-data:www-data /var/www/html
 
