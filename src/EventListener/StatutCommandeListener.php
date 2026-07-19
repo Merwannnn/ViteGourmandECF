@@ -32,13 +32,16 @@ final class StatutCommandeListener
 
             // permet de s'aasurer que l'entité dans la variable $user est bien un utilisateur avant d'envoyer le mail
             if ($user instanceof User) {
-                $mail = (new TemplatedEmail())
+                try {
+                    $mail = (new TemplatedEmail())
                     ->to($user->getEmail())
                     ->from('no-reply@ViteEtGourmand.fr')
                     ->subject('Votre commande est terminée')
                     ->htmlTemplate('emails/commande_terminée.html.twig');
                 
                     $this->mailer->send($mail);
+                } catch (\Exception $e) {
+                }
             }
         }
     }

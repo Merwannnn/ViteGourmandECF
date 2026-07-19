@@ -103,13 +103,17 @@ final class EspaceEmployeController extends AbstractController
             $entityManager->flush();
 
             // permet d'envoyer un mail a l'employe en fois son compte créer
-            $mail = (new TemplatedEmail())
+            try {
+                $mail = (new TemplatedEmail())
                 ->from('support@ViteEtGourmand.fr')
                 ->to((string) $user->getEmail())
                 ->subject('Un compte employé a été créer pour vous')
                 ->htmlTemplate('registration/employe_registration_email.html.twig');
 
                 $this->mailer->send($mail);
+            } catch (\Exception $e) {
+                $this->addFlash('danger', 'Impossible d\'envoyer le mail');
+            }
         }
 
         return $this->render('espace_employe/indexComptes.html.twig', [

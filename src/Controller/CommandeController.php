@@ -211,7 +211,8 @@ final class CommandeController extends AbstractController
 
                 // permet d'envoyer un mail qui contient le motif de supression a l'utilisateur qui a créer la commande 
                 $user = $commande->getUser();
-                $mail = (new TemplatedEmail())
+                try {
+                    $mail = (new TemplatedEmail())
                     ->to($user->getEmail())
                     ->from('no-reply@ViteEtGourmand.fr')
                     ->subject('Votre commande a été annuler')
@@ -222,6 +223,10 @@ final class CommandeController extends AbstractController
                     ]);
 
                     $mailer->send($mail);
+                } catch (\Exception $e) {
+                    // permet d'informer l'utilisateur qui il y a eu une erreur
+                    $this->addFlash('danger', 'Impossible d\'envoyer le mail');
+                }
             }
 
             // permet d'empécher toute utilisateur ne possédant pas le role "ROLE_EMPLOYE" ou "ROLE_ADMIN" de supprimer une commande si sont statut n'est pas "Commande passée"

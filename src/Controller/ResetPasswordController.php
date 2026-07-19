@@ -155,7 +155,8 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
-        $email = (new TemplatedEmail())
+        try {
+            $email = (new TemplatedEmail())
             ->from(new Address('support@ViteEtGourmand.fr', 'Support'))
             ->to((string) $user->getEmail())
             ->subject('Your password reset request')
@@ -166,6 +167,8 @@ class ResetPasswordController extends AbstractController
         ;
 
         $mailer->send($email);
+        } catch (\Exception $e) {
+        }
 
         // Store the token object in session for retrieval in check-email route.
         $this->setTokenObjectInSession($resetToken);

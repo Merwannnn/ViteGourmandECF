@@ -32,13 +32,16 @@ final class StatutNouvelleCommandeListener
 
             // permet de s'assurer que l'entité dans la variable $user est bien un utilisateur avant d'envoyer le mail
             if ($user instanceof User) {
-                $mail = (new TemplatedEmail())
+                try {
+                    $mail = (new TemplatedEmail())
                     ->to($user->getEmail())
                     ->from('no-reply@ViteEtGourmand.fr')
                     ->subject('Votre commande chez Vite & Gourmand')
                     ->htmlTemplate('emails/nouvelle_commande.html.twig');
                 
                     $this->mailer->send($mail);
+                } catch (\Exception $e) {
+                }
             }
         }
     }
