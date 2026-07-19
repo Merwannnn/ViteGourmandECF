@@ -33,8 +33,6 @@ ENV APP_ENV=prod
 
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-RUN php bin/console cache:warmup --env=prod
-
 RUN chown -R www-data:www-data /var/www/html
 
 EXPOSE 80
