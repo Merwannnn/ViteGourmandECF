@@ -1,6 +1,12 @@
 FROM php:8.3-apache
 
-WORKDIR /var/www/html
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
+    /etc/apache2/sites-available/*.conf \
+    /etc/apache2/apache2.conf \
+    /etc/apache2/conf-available/*.conf \
+    && a2enmod rewrite
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -20,12 +26,11 @@ RUN apt-get update && apt-get install -y \
         gd \
     && pecl install mongodb-1.21.4 \
     && docker-php-ext-enable mongodb \
-    && php -r "echo 'MongoDB extension: '.phpversion('mongodb').PHP_EOL;" \
     && rm -rf /var/lib/apt/lists/*
 
-RUN a2enmod rewrite
-
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
 
 COPY . .
 
@@ -36,3 +41,5 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 RUN chown -R www-data:www-data /var/www/html
 
 EXPOSE 80
+
+CMD ["apache2-foreground"]
