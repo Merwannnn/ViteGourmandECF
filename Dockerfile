@@ -39,6 +39,8 @@ ENV APP_DEBUG=0
 
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
+RUN echo "APP_ENV=prod" > .env
+
 RUN chown -R www-data:www-data /var/www/html
 
 EXPOSE 80
