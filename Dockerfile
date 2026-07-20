@@ -37,8 +37,9 @@ RUN echo "APP_DEBUG=0" >> .env
 
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-RUN chown -R www-data:www-data /var/www/html
+RUN mkdir -p var/cache var/log \
+    && chown -R www-data:www-data var
 
 EXPOSE 80
 
-CMD ["bash", "-c", "php bin/console cache:clear --env=prod && apache2-foreground"]
+CMD ["bash", "-c", "chown -R www-data:www-data var && apache2-foreground"]
