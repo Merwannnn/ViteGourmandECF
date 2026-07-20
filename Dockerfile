@@ -29,13 +29,7 @@ WORKDIR /var/www/html
 
 COPY . .
 
-ENV APP_ENV=prod
-ENV APP_DEBUG=0
-
-RUN echo "APP_ENV=prod" > .env
-RUN echo "APP_DEBUG=0" >> .env
-
-RUN composer install --no-dev --optimize-autoloader --no-scripts
+RUN composer install --optimize-autoloader --no-scripts
 
 RUN mkdir -p var/cache var/log \
     && chown -R www-data:www-data var
