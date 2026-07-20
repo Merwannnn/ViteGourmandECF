@@ -32,7 +32,6 @@ WORKDIR /var/www/html
 
 COPY . .
 
-# Variables uniquement pour permettre l'installation Composer
 RUN echo "APP_ENV=prod" > .env \
     && echo "APP_DEBUG=0" >> .env \
     && echo "APP_SECRET=dummy_secret" >> .env \
@@ -45,7 +44,6 @@ RUN composer install \
     --no-interaction \
     --no-scripts
 
-# Permissions
 RUN mkdir -p var/cache var/log \
     && chown -R www-data:www-data var
 
