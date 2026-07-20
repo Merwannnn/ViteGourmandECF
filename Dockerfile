@@ -9,8 +9,7 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
     && a2enmod rewrite
 
 RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
+    git unzip \
     libicu-dev \
     libzip-dev \
     libpng-dev \
@@ -19,11 +18,7 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     pkg-config \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install \
-        intl \
-        pdo_mysql \
-        zip \
-        gd \
+    && docker-php-ext-install intl pdo_mysql zip gd \
     && pecl install mongodb-1.21.4 \
     && docker-php-ext-enable mongodb \
     && rm -rf /var/lib/apt/lists/*
@@ -42,14 +37,8 @@ RUN echo "APP_DEBUG=0" >> .env
 
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-RUN php bin/console importmap:install --env=prod
-
-RUN php bin/console cache:clear --env=prod
-
-RUN php bin/console cache:warmup --env=prod
-
 RUN chown -R www-data:www-data /var/www/html
 
 EXPOSE 80
 
-CMD ["bash", "-c", "echo APP_ENV=$APP_ENV && echo APP_DEBUG=$APP_DEBUG && apache2-foreground"]
+CMD ["bash", "-c", "php bin/console cache:clear --env=prod && apache2-foreground"]
