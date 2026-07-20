@@ -4,14 +4,12 @@ ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 ENV APP_ENV=prod
 ENV APP_DEBUG=0
 
-# Configuration Apache pour Symfony
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
     /etc/apache2/sites-available/*.conf \
     /etc/apache2/apache2.conf \
     /etc/apache2/conf-available/*.conf \
     && a2enmod rewrite
 
-# Extensions PHP nécessaires
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -32,16 +30,15 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-enable mongodb \
     && rm -rf /var/lib/apt/lists/*
 
-# Installation de Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Copie du projet
 COPY . .
 
-# Installation des dépendances PHP
-# On désactive les scripts car bin/console doit être exécutable ensuite
+RUN echo "APP_ENV=prod" > .env \
+    && echo "APP_DEBUG=0" >> .env
+
 RUN composer install \
     --no-dev \
     --prefer-dist \
@@ -49,12 +46,10 @@ RUN composer install \
     --no-interaction \
     --no-scripts
 
-# Préparation Symfony production
 RUN php bin/console asset-map:compile --env=prod \
     && php bin/console cache:clear --env=prod \
     && php bin/console cache:warmup --env=prod
 
-# Permissions Apache
 RUN mkdir -p var/cache var/log \
     && chown -R www-data:www-data var
 
