@@ -31,20 +31,11 @@ WORKDIR /var/www/html
 
 COPY . .
 
-RUN echo "APP_ENV=prod" > .env \
-    && echo "APP_DEBUG=0" >> .env \
-    && echo "APP_SECRET=dummy" >> .env \
-    && echo "DATABASE_URL=mysql://dummy:dummy@127.0.0.1:3306/dummy" >> .env
-
 RUN composer install \
     --no-dev \
     --prefer-dist \
     --optimize-autoloader \
-    --no-interaction \
-    --no-scripts
-
-# LA LIGNE QUI MANQUAIT
-RUN php bin/console importmap:install --env=prod
+    --no-interaction
 
 RUN mkdir -p var/cache var/log \
     && chown -R www-data:www-data var
