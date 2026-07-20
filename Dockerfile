@@ -1,17 +1,17 @@
 FROM php:8.3-apache
 
-# Configuration Apache
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 ENV APP_ENV=prod
 ENV APP_DEBUG=0
 
+# Configuration Apache pour Symfony
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
     /etc/apache2/sites-available/*.conf \
     /etc/apache2/apache2.conf \
     /etc/apache2/conf-available/*.conf \
     && a2enmod rewrite
 
-# Dépendances système
+# Extensions PHP nécessaires
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -30,33 +30,31 @@ RUN apt-get update && apt-get install -y \
         gd \
     && pecl install mongodb-1.21.4 \
     && docker-php-ext-enable mongodb \
-    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Composer
+# Installation de Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Optimisation du cache Docker
-COPY composer.json composer.lock ./
+# Copie du projet
+COPY . .
 
+# Installation des dépendances PHP
+# On désactive les scripts car bin/console doit être exécutable ensuite
 RUN composer install \
     --no-dev \
     --prefer-dist \
     --optimize-autoloader \
-    --no-interaction
+    --no-interaction \
+    --no-scripts
 
-# Copie du reste du projet
-COPY . .
-
-# Génération des assets Symfony
-RUN php bin/console importmap:install --env=prod \
-    && php bin/console asset-map:compile \
+# Préparation Symfony production
+RUN php bin/console asset-map:compile --env=prod \
     && php bin/console cache:clear --env=prod \
     && php bin/console cache:warmup --env=prod
 
-# Permissions
+# Permissions Apache
 RUN mkdir -p var/cache var/log \
     && chown -R www-data:www-data var
 
