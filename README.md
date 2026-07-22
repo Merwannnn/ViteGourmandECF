@@ -34,3 +34,7 @@ Important: ne déployer pas le site en local tant que vous n'avez pas créer vos
 # Déploiement local avec PHP:
 
 Utiliser le serveur interne de php pour déployer le site en local avec la commande php -S localhost:8000 -t public.
+
+# Informations:
+
+Si vous utiliser l'export de la base de données MySql pour votre déploiement local vous trouverer les identifiant(adresse e-mail) de chaque utilisateur dans la table "user" et le mot de passe pour chaque utilisateur est " xSdaB0WciwNQ7Qp ".
